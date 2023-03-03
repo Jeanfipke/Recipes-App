@@ -5,25 +5,24 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { renderWithRouter } from './helpers/renderWith';
 
-
 describe('Testa a página de perfil', () => {
   test('Todos os elemento devem estar na página', async () => {
     const { history } = renderWithRouter(<App />);
     history.push('/profile');
     expect(history.location.pathname).toBe('/profile');
-    const links = await screen.findAllByRole('link');
-    await screen.findByRole('link', { name: /done recipes/i });
-    await screen.findByRole('link', { name: /favorite recipes/i });
-    await screen.findByRole('link', { name: /logout/i });
+    const links = await screen.findAllByRole('button');
+    await screen.findByRole('button', { name: /done recipes/i });
+    await screen.findByRole('button', { name: /favorite recipes/i });
+    await screen.findByRole('button', { name: /logout/i });
     expect(links).toHaveLength(3);
   });
   test('', async () => {
     const { history } = renderWithRouter(<App />);
     history.push('/profile');
     expect(history.location.pathname).toBe('/profile');
-    const doneRecipesBtn = await screen.findByRole('link', { name: /done recipes/i });
-    const favoriteRecipesBtn = await screen.findByRole('link', { name: /favorite recipes/i });
-    const lougoutBtn = await screen.findByRole('link', { name: /logout/i });
+    const doneRecipesBtn = await screen.findByRole('button', { name: /done recipes/i });
+    const favoriteRecipesBtn = await screen.findByRole('button', { name: /favorite recipes/i });
+    const lougoutBtn = await screen.findByRole('button', { name: /logout/i });
     act(async () => {
       userEvent.click(doneRecipesBtn);
     });
