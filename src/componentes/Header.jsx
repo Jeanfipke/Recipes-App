@@ -1,12 +1,15 @@
-import React from 'react';
-import { useHistory } from 'react-router';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import recipesLogo from '../images/recipesLogo.svg';
 import recipesTextLogo from '../images/recipesTextLogo.svg';
+import SearchBar from './SearchBar';
 
 function Header() {
+  const { pathname } = useLocation();
   const history = useHistory();
+  const [toSearch, setToSearch] = useState('invisible');
 
   return (
     <header className="header">
@@ -16,7 +19,11 @@ function Header() {
           <img src={ recipesTextLogo } alt="recipes text icon" />
         </div>
         <div className="header-buttons">
-          <button>
+          <button
+            onClick={ () => setToSearch(
+              toSearch === 'invisible' ? 'visible' : 'invisible',
+            ) }
+          >
             <img src={ searchIcon } alt="search icon" />
           </button>
           <button onClick={ () => history.push('/profile') }>
@@ -24,6 +31,15 @@ function Header() {
           </button>
         </div>
       </div>
+      <h1>{ pathname.toUpperCase().split('/') }</h1>
+      {
+        toSearch === 'invisible'
+          ? (
+            <p />
+          ) : (
+            <SearchBar />
+          )
+      }
     </header>
   );
 }
