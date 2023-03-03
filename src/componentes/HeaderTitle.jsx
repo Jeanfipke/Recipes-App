@@ -1,0 +1,35 @@
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
+
+function HeaderTitle() {
+  const { pathname } = useLocation();
+  const [title, setTitle] = useState('');
+
+  const getTitle = () => {
+    if (pathname === '/meals') {
+      setTitle('Meals');
+    }
+    if (pathname === '/drinks') {
+      setTitle('Drinks');
+    }
+    if (pathname === '/profile') {
+      setTitle('Profile');
+    }
+    if (pathname === '/favorite-recipes') {
+      setTitle('Favorite Recipes');
+    }
+    if (pathname === '/done-recipes') {
+      setTitle('Done Recipes');
+    }
+  };
+
+  useEffect(() => {
+    getTitle();
+  }, []);
+
+  return (
+    <h1 data-testid="page-title">{ title }</h1>
+  );
+}
+
+export default HeaderTitle;
