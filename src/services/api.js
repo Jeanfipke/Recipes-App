@@ -25,3 +25,9 @@ export const mealsCategoriesApi = async () => {
   const result = await response.json();
   return result;
 };
+
+export const detailsRecipesApi = async (URL) => {
+  const response = await fetch(URL);
+  const result = await response.json();
+  return result;
+};
