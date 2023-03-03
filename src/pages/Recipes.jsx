@@ -5,6 +5,7 @@ import Card from '../componentes/Card';
 import BtnCategories from '../componentes/BtnCategories';
 import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
 import { drinksApi, mealsApi } from '../services/api';
+import Header from '../componentes/Header';
 
 function Recipes() {
   const { pathname } = useLocation();
@@ -24,6 +25,7 @@ function Recipes() {
 
   return (
     <div>
+      <Header />
       <BtnCategories />
       {pathname === '/meals' ? (
         meals.slice(0, STOP_ARRAY_RECIPES)

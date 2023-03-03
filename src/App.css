@@ -37,6 +37,25 @@
   font-weight: 900;
 }
 
+.header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header-top {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.recipes-logo, .header-buttons {
+  align-items: center;
+  display: flex;
+}
+
 @keyframes shake {
 
   0% {
