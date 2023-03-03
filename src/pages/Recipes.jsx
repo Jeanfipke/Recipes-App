@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import Card from '../componentes/Card';
+import BtnCategories from '../componentes/BtnCategories';
+import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
 import { drinksApi, mealsApi } from '../services/api';
 
 function Recipes() {
@@ -19,15 +22,14 @@ function Recipes() {
     api();
   }, []);
 
-  const stopArray = 12;
-
   return (
     <div>
+      <BtnCategories />
       {pathname === '/meals' ? (
-        meals.slice(0, stopArray)
+        meals.slice(0, STOP_ARRAY_RECIPES)
           .map((meal, idx) => <Card key={ meal.idMeal } param={ meal } idx={ idx } />)
       ) : (
-        drinks.slice(0, stopArray)
+        drinks.slice(0, STOP_ARRAY_RECIPES)
           .map((drink, idx) => <Card key={ drink.idDrink } param={ drink } idx={ idx } />)
       )}
     </div>
