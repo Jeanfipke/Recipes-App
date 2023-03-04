@@ -9,11 +9,12 @@ import { drinksCategoriesApi, mealsCategoriesApi } from '../services/api';
 function BtnCategories() {
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
-  const dispatch = useDispatch();
+  const [currentCategory, setcurrentCategory] = useState('');
 
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
 
-  const api = async () => {
+  const apiCategories = async () => {
     const resultMealsCategories = await mealsCategoriesApi();
     setMealsCategories(resultMealsCategories.meals);
 
@@ -22,12 +23,20 @@ function BtnCategories() {
   };
 
   const handleClick = ({ target }) => {
-    console.log(target.innerText);
-    dispatch({ type: SELECTED_CATEGORY, payload: target.innerText });
+    if (target.innerText === currentCategory) {
+      dispatch({ type: SELECTED_CATEGORY, payload: '' });
+      setcurrentCategory('');
+    } else {
+      dispatch({ type: SELECTED_CATEGORY, payload: target.innerText });
+      setcurrentCategory(target.innerText);
+    }
   };
 
   useEffect(() => {
-    api();
+    apiCategories();
+  }, []);
+
+  useEffect(() => {
   }, []);
 
   return pathname === '/meals' ? (

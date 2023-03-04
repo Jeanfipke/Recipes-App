@@ -1,20 +1,34 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { detailsRecipesApi } from '../services/api';
+
+import { STOP_ARRAY_RECOMENDATION } from '../Helpers/genericConsts';
+import { detailsRecipesApi, recipeAPI } from '../services/api';
 
 function RecipesDetails() {
   const [recipe, setRecipe] = useState([]);
+  const [recomendations, setRecomendation] = useState([]);
   const [indredients, setIndredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+  const [carousel, setCarousel] = useState(0);
   const { pathname } = useLocation();
-  console.log(pathname);
   //* Destructuring pathname
   const [recipeType, id] = pathname.split('/').splice(1);
+
+  const recomendationType = recipeType === 'meals'
+    ? 'Drinks' : 'Meals';
 
   const api = useCallback(async () => {
     const recipeURL = recipeType === 'meals'
       ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
       : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+
+    const recomendationURL = recipeType === 'meals'
+      ? 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
+      : 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+
+    const resultRecomendation = await recipeAPI(recomendationURL);
+    setRecomendation(resultRecomendation[recomendationType.toLocaleLowerCase()]
+      .splice(0, STOP_ARRAY_RECOMENDATION));
 
     const result = await detailsRecipesApi(recipeURL);
     setRecipe(result[recipeType]);
@@ -32,11 +46,21 @@ function RecipesDetails() {
         .includes('strMeasure') && e[1] !== '' && e[1] !== null)
       .map((e) => e[1]);
     setMeasure(measureArray);
-  }, [recipeType, id]);
+  }, [recipeType, id, recomendationType]);
+
+  // console.log(recomendations.length);
+
+  const handlePrev = () => {
+    setCarousel((prev) => (prev - 2 < 0 ? recomendations.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCarousel((prev) => (prev + 2 >= recomendations.length ? 0 : prev + 1));
+  };
 
   useEffect(() => {
     api();
-  }, [api]);
+  }, [api, setCarousel]);
 
   return (
     <div>
@@ -75,6 +99,25 @@ function RecipesDetails() {
                 allowFullScreen
                 title="Embedded youtube"
               />
+              <button onClick={ handlePrev }>Prev</button>
+              <div>
+                {recomendations.slice(carousel, carousel + 2)
+                  .map((recomendation, index) => {
+                    console.log(carousel);
+                    return (
+                      <div
+                        key={ index }
+                        data-testid={ `${index}-recommendation-card` }
+                        className="w-1/2"
+                      >
+                        <h2 data-testid={ `${index}-recommendation-title` }>
+                          {Object.entries(recomendation)[1][1]}
+                        </h2>
+                      </div>
+                    );
+                  })}
+              </div>
+              <button onClick={ handleNext }>Next</button>
             </main>
           ))
       ) : (
