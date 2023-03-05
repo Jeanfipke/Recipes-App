@@ -60,6 +60,7 @@ function RecipesDetails() {
                     data-testid={ `${idx}-ingredient-name-and-measure` }
                   >
                     {ingredient}
+                    {' '}
                     {measure[idx]}
                   </li>
                 ))}
@@ -71,10 +72,17 @@ function RecipesDetails() {
                 height="480"
                 src={ `https://www.youtube.com/embed/${strYoutube.split('v=')[1]}` }
                 allow="accelerometer; autoplay; clipboard-write;
-          encrypted-media; gyroscope; picture-in-picture"
+                  encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 title="Embedded youtube"
               />
+              <button
+                style={ { position: 'fixed', bottom: 0, left: 0 } }
+                data-testid="start-recipe-btn"
+                onClick={ () => {} }
+              >
+                Start Recipe
+              </button>
             </main>
           ))
       ) : (
@@ -98,7 +106,7 @@ function RecipesDetails() {
               <h3 data-testid="recipe-category">
                 {strCategory}
                 {' '}
-                { strAlcoholic !== 'Non alcoholic' && strAlcoholic}
+                { strAlcoholic}
               </h3>
               <ul>
                 {indredients.map((ingredient, idx) => (
@@ -112,6 +120,14 @@ function RecipesDetails() {
                 ))}
               </ul>
               <p data-testid="instructions">{strInstructions}</p>
+
+              <button
+                style={ { position: 'fixed', bottom: 0, left: 0 } }
+                data-testid="start-recipe-btn"
+                onClick={ () => {} }
+              >
+                Start Recipe
+              </button>
             </main>
           ))
       )}
