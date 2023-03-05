@@ -32,6 +32,7 @@ function RecipesDetails() {
     const resultRecomendation = await recipeAPI(recomendationURL);
     setRecomendation(resultRecomendation[recomendationType.toLocaleLowerCase()]
       .splice(0, STOP_ARRAY_RECOMENDATION));
+    console.log(recomendations);
 
     const result = await detailsRecipesApi(recipeURL);
     setRecipe(result[recipeType]);
@@ -50,8 +51,6 @@ function RecipesDetails() {
       .map((e) => e[1]);
     setMeasure(measureArray);
   }, [recipeType, id, recomendationType]);
-
-  // console.log(recomendations.length);
 
   const handlePrev = () => {
     // const marginAndBorder = 15;
@@ -120,26 +119,23 @@ function RecipesDetails() {
               <div className="d-flex carousel" ref={ carousel }>
                 {recomendations
                 // {recomendations.slice(carousel, carousel + 2)
-                  .map((recomendation, index) => {
-                    console.log(carousel);
-                    return (
-                      <div
-                        key={ index }
-                        data-testid={ `${index}-recommendation-card` }
-                        className="carousel-item"
-                      >
-                        <h2 data-testid={ `${index}-recommendation-title` }>
-                          {Object.entries(recomendation)[1][1]}
-                        </h2>
-                        <img
-                          className="carousel-img"
-                          src={ Object.entries(recomendation)[16][1] }
-                          // width="100px"
-                          alt={ Object.entries(recomendation)[1][1] }
-                        />
-                      </div>
-                    );
-                  })}
+                  .map((recomendation, index) => (
+                    <div
+                      key={ index }
+                      data-testid={ `${index}-recommendation-card` }
+                      className="carousel-item"
+                    >
+                      <h2 data-testid={ `${index}-recommendation-title` }>
+                        {Object.entries(recomendation)[1][1]}
+                      </h2>
+                      <img
+                        className="carousel-img"
+                        src={ Object.entries(recomendation)[16][1] }
+                        // width="100px"
+                        alt={ Object.entries(recomendation)[1][1] }
+                      />
+                    </div>
+                  ))}
               </div>
               <button onClick={ handlePrev }>Prev</button>
               <button onClick={ handleNext }>Next</button>
@@ -180,6 +176,30 @@ function RecipesDetails() {
                 ))}
               </ul>
               <p data-testid="instructions">{strInstructions}</p>
+              <br />
+              <div className="d-flex carousel" ref={ carousel }>
+                {recomendations
+                // {recomendations.slice(carousel, carousel + 2)
+                  .map((recomendation, index) => (
+                    <div
+                      key={ index }
+                      data-testid={ `${index}-recommendation-card` }
+                      className="carousel-item"
+                    >
+                      <h2 data-testid={ `${index}-recommendation-title` }>
+                        {Object.entries(recomendation)[1][1]}
+                      </h2>
+                      <img
+                        className="carousel-img"
+                        src={ Object.entries(recomendation)[6][1] }
+                        // width="100px"
+                        alt={ Object.entries(recomendation)[1][1] }
+                      />
+                    </div>
+                  ))}
+              </div>
+              <button onClick={ handlePrev }>Prev</button>
+              <button onClick={ handleNext }>Next</button>
             </main>
           ))
       )}
