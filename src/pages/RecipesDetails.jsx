@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import './RecipesDetails.css';
 import { STOP_ARRAY_RECOMENDATION } from '../Helpers/genericConsts';
 import { detailsRecipesApi, recipeAPI } from '../services/api';
 
@@ -9,7 +10,9 @@ function RecipesDetails() {
   const [recomendations, setRecomendation] = useState([]);
   const [indredients, setIndredients] = useState([]);
   const [measure, setMeasure] = useState([]);
-  const [carousel, setCarousel] = useState(0);
+
+  const carousel = useRef(null);
+
   const { pathname } = useLocation();
   //* Destructuring pathname
   const [recipeType, id] = pathname.split('/').splice(1);
@@ -51,16 +54,30 @@ function RecipesDetails() {
   // console.log(recomendations.length);
 
   const handlePrev = () => {
-    setCarousel((prev) => (prev - 2 < 0 ? recomendations.length - 1 : prev - 1));
+    // const marginAndBorder = 15;
+    const element = carousel.current;
+    const itemWidth = element.children[0].offsetWidth; // largura do primeiro item
+    const currentScroll = element.scrollLeft;
+    const maxScroll = element.scrollWidth - element.offsetWidth;
+    const nextScroll = Math.max(currentScroll - itemWidth, 0);
+    element.scrollLeft = nextScroll === 0 ? maxScroll : nextScroll;
   };
 
   const handleNext = () => {
-    setCarousel((prev) => (prev + 2 >= recomendations.length ? 0 : prev + 1));
+    const marginAndBorder = 15;
+    const element = carousel.current;
+    const itemWidth = element.children[0].offsetWidth + marginAndBorder; // largura do primeiro item
+    const currentScroll = element.scrollLeft;
+    const maxScroll = element.scrollWidth - element.offsetWidth;
+    const nextScroll = Math.min(currentScroll + itemWidth, maxScroll);
+    element.scrollLeft = nextScroll === maxScroll ? 0 : nextScroll;
+
+    // setCarousel((prev) => (prev + 2 >= recomendations.length ? 0 : prev + 1));
   };
 
   useEffect(() => {
     api();
-  }, [api, setCarousel]);
+  }, [api]);
 
   return (
     <div>
@@ -99,24 +116,32 @@ function RecipesDetails() {
                 allowFullScreen
                 title="Embedded youtube"
               />
-              <button onClick={ handlePrev }>Prev</button>
-              <div>
-                {recomendations.slice(carousel, carousel + 2)
+              <br />
+              <div className="d-flex carousel" ref={ carousel }>
+                {recomendations
+                // {recomendations.slice(carousel, carousel + 2)
                   .map((recomendation, index) => {
                     console.log(carousel);
                     return (
                       <div
                         key={ index }
                         data-testid={ `${index}-recommendation-card` }
-                        className="w-1/2"
+                        className="carousel-item"
                       >
                         <h2 data-testid={ `${index}-recommendation-title` }>
                           {Object.entries(recomendation)[1][1]}
                         </h2>
+                        <img
+                          className="carousel-img"
+                          src={ Object.entries(recomendation)[16][1] }
+                          // width="100px"
+                          alt={ Object.entries(recomendation)[1][1] }
+                        />
                       </div>
                     );
                   })}
               </div>
+              <button onClick={ handlePrev }>Prev</button>
               <button onClick={ handleNext }>Next</button>
             </main>
           ))
