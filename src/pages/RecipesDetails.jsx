@@ -32,7 +32,6 @@ function RecipesDetails() {
     const resultRecomendation = await recipeAPI(recomendationURL);
     setRecomendation(resultRecomendation[recomendationType.toLocaleLowerCase()]
       .splice(0, STOP_ARRAY_RECOMENDATION));
-    console.log(recomendations);
 
     const result = await detailsRecipesApi(recipeURL);
     setRecipe(result[recipeType]);
