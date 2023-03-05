@@ -11,7 +11,6 @@ import { SELECTED_CATEGORY } from '../redux/Actions/typeActions';
 function Recipes() {
   const { pathname } = useLocation();
   const category = useSelector((state) => state.categories);
-  // console.log('category', category);
 
   const [recipe, setRecipe] = useState([]);
 
