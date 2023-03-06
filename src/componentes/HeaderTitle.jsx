@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 
 function HeaderTitle() {
   const { pathname } = useLocation();
   const [title, setTitle] = useState('');
 
-  const getTitle = () => {
+  const getTitle = useCallback(() => {
     if (pathname === '/meals') {
       setTitle('Meals');
     }
@@ -21,7 +21,7 @@ function HeaderTitle() {
     if (pathname === '/done-recipes') {
       setTitle('Done Recipes');
     }
-  };
+  }, [pathname]);
 
   useEffect(() => {
     getTitle();
