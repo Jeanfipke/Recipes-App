@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
 import { detailsRecipesApi } from '../services/api';
 
 function RecipesDetails() {
   const [recipe, setRecipe] = useState([]);
-  const [indredients, setIndredients] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
   const { pathname } = useLocation();
   console.log(pathname);
@@ -24,7 +25,7 @@ function RecipesDetails() {
       .filter((e) => e[0]
         .includes('strIngredient') && e[1] !== '' && e[1] !== null)
       .map((e) => e[1]);
-    setIndredients(ingredientsArray);
+    setIngredients(ingredientsArray);
 
     const measureArray = Object
       .entries(result[recipeType][0])
@@ -54,7 +55,7 @@ function RecipesDetails() {
               />
               <h3 data-testid="recipe-category">{strCategory}</h3>
               <ul>
-                {indredients.map((ingredient, idx) => (
+                {ingredients.map((ingredient, idx) => (
                   <li
                     key={ idx }
                     data-testid={ `${idx}-ingredient-name-and-measure` }
@@ -76,13 +77,11 @@ function RecipesDetails() {
                 allowFullScreen
                 title="Embedded youtube"
               />
-              <button
-                style={ { position: 'fixed', bottom: 0, left: 0 } }
-                data-testid="start-recipe-btn"
-                onClick={ () => {} }
-              >
-                Start Recipe
-              </button>
+              <BtnRecipesDetails
+                idRecipe={ idMeal }
+                type="meals"
+                ingredients={ ingredients }
+              />
             </main>
           ))
       ) : (
@@ -109,7 +108,7 @@ function RecipesDetails() {
                 { strAlcoholic}
               </h3>
               <ul>
-                {indredients.map((ingredient, idx) => (
+                {ingredients.map((ingredient, idx) => (
                   <li
                     key={ idx }
                     data-testid={ `${idx}-ingredient-name-and-measure` }
@@ -120,14 +119,11 @@ function RecipesDetails() {
                 ))}
               </ul>
               <p data-testid="instructions">{strInstructions}</p>
-
-              <button
-                style={ { position: 'fixed', bottom: 0, left: 0 } }
-                data-testid="start-recipe-btn"
-                onClick={ () => {} }
-              >
-                Start Recipe
-              </button>
+              <BtnRecipesDetails
+                idRecipe={ idDrink }
+                type="drinks"
+                ingredients={ ingredients }
+              />
             </main>
           ))
       )}
