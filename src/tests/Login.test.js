@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import App from '../App';
-import { renderWithRouter } from './helpers/renderWith';
+import { renderWithRouterAndRedux } from './helpers/renderWith';
 
 const LOGIN_INPUT = 'email-input';
 const PASSWORD_INPUT = 'password-input';
@@ -12,13 +12,13 @@ const VALID_PASSWORD = '1234567';
 
 describe('Testes referentes a page de Login', () => {
   it('Testa se os inputs \'Login\', \'Password\' e um botão \'Enter\' são', () => {
-    renderWithRouter(<App />);
+    renderWithRouterAndRedux(<App />);
     expect(screen.getByTestId(LOGIN_INPUT)).toBeInTheDocument();
     expect(screen.getByTestId(PASSWORD_INPUT)).toBeInTheDocument();
     expect(screen.getByTestId(ENTER_BUTTON)).toBeInTheDocument();
   });
   it('Testa se é possivel escrever nos inputs e se o botão \'Enter\' redireciona para a tela principal', () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
     const login = screen.getByTestId(LOGIN_INPUT);
     const password = screen.getByTestId(PASSWORD_INPUT);
     const button = screen.getByTestId(ENTER_BUTTON);
