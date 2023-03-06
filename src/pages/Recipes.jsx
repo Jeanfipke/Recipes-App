@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import Footer from '../componentes/Footer';
 
-import Card from '../componentes/Card';
 import BtnCategories from '../componentes/BtnCategories';
+import Card from '../componentes/Card';
 import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
 import Header from '../componentes/Header';
-import { recipeAPI } from '../services/api';
 import { SELECTED_CATEGORY } from '../redux/Actions/typeActions';
+import { recipeAPI } from '../services/api';
 
 function Recipes() {
   const { pathname } = useLocation();
@@ -76,6 +77,7 @@ function Recipes() {
             </Link>
           ))
       )}
+      <Footer />
     </div>
   );
 }
