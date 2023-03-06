@@ -41,6 +41,23 @@ function RecipesDetails() {
 
   return (
     <div>
+
+      <div>
+        <button
+          data-testid="share-btn"
+          onClick={ () => shareRecipe() }
+        >
+          Compartilhar
+          //! teste
+        </button>
+        <button
+          data-testid="favorite-btn"
+          onClick={ () => favoriteRecipe() }
+        >
+          Favoritar
+        </button>
+      </div>
+
       {recipeType === 'meals' ? (
         recipe
           .map((
