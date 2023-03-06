@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 function BtnRecipesDetails({ idRecipe, type, ingredients }) {
   const [isFinished, setIsFinished] = useState(false);
   const [startMessage, setStartMessage] = useState(true);
+  const history = useHistory();
 
   const startRecipe = (id, recipe) => {
     const prevStorage = JSON
@@ -34,6 +36,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients }) {
 
     setStartMessage(false);
     setIsFinished(false);
+    history.push(`/${type}/${idRecipe}/in-progress`);
   };
 
   const getLocalStorage = useCallback(() => {
