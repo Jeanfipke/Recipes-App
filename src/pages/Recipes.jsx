@@ -1,38 +1,80 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Card from '../componentes/Card';
 import BtnCategories from '../componentes/BtnCategories';
 import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
-import { drinksApi, mealsApi } from '../services/api';
 import Header from '../componentes/Header';
+import { recipeAPI } from '../services/api';
+import { SELECTED_CATEGORY } from '../redux/Actions/typeActions';
 
 function Recipes() {
   const { pathname } = useLocation();
-  const [meals, setMeals] = useState([]);
-  const [drinks, setDrinks] = useState([]);
+  const category = useSelector((state) => state.categories);
+  console.log('category', category);
 
-  const api = async () => {
-    const resultMeals = await mealsApi();
-    setMeals(resultMeals.meals);
-    const resultDrinks = await drinksApi();
-    setDrinks(resultDrinks.drinks);
+  const [recipe, setRecipe] = useState([]);
+
+  const dispatch = useDispatch();
+
+  const typeRicepe = pathname.split('/')[1];
+
+  const api = useCallback(async () => {
+    try {
+      let URL_RECIPE = pathname === '/meals'
+        ? `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category.category}`
+        : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category.category}`;
+      if (!category.category) {
+        URL_RECIPE = pathname === '/meals'
+          ? 'https://www.themealdb.com/api/json/v1/1/search.php?s='
+          : 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      }
+      const results = await recipeAPI(URL_RECIPE);
+      if (results[typeRicepe]?.length > STOP_ARRAY_RECIPES) {
+        const resultsRecipe = results[typeRicepe].slice(0, STOP_ARRAY_RECIPES);
+        return setRecipe(resultsRecipe);
+      }
+      const resultsRecipe = results[typeRicepe];
+      return setRecipe(resultsRecipe);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [category.category, pathname, typeRicepe]);
+
+  const handleResetFilters = () => {
+    dispatch({ type: SELECTED_CATEGORY, payload: '' });
   };
 
   useEffect(() => {
     api();
-  }, []);
+  }, [api]);
 
   return (
     <div>
       <Header />
       <BtnCategories />
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ handleResetFilters }
+      >
+        All
+      </button>
       {pathname === '/meals' ? (
-        meals.slice(0, STOP_ARRAY_RECIPES)
-          .map((meal, idx) => <Card key={ meal.idMeal } param={ meal } idx={ idx } />)
+        recipe
+          .map((meal, idx) => (
+            <Link to={ `/meals/${meal.idMeal}` } key={ meal.idMeal }>
+              <Card key={ meal.idMeal } param={ meal } idx={ idx } />
+            </Link>
+          ))
       ) : (
-        drinks.slice(0, STOP_ARRAY_RECIPES)
-          .map((drink, idx) => <Card key={ drink.idDrink } param={ drink } idx={ idx } />)
+        recipe
+          .map((drink, idx) => (
+            <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
+              <Card key={ drink.idDrink } param={ drink } idx={ idx } />
+            </Link>
+          ))
       )}
     </div>
   );
