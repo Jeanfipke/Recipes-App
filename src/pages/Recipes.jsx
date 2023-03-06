@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import Footer from '../componentes/Footer';
 
-import Card from '../componentes/Card';
 import BtnCategories from '../componentes/BtnCategories';
+import Card from '../componentes/Card';
 import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
-import { recipeAPI } from '../services/api';
 import { SELECTED_CATEGORY } from '../redux/Actions/typeActions';
+import { recipeAPI } from '../services/api';
 
 function Recipes() {
   const { pathname } = useLocation();
@@ -50,31 +51,34 @@ function Recipes() {
   }, [api]);
 
   return (
-    <div>
-      <BtnCategories />
-      <button
-        type="button"
-        data-testid="All-category-filter"
-        onClick={ handleResetFilters }
-      >
-        All
-      </button>
-      {pathname === '/meals' ? (
-        recipe
-          .map((meal, idx) => (
-            <Link to={ `/meals/${meal.idMeal}` } key={ meal.idMeal }>
-              <Card key={ meal.idMeal } param={ meal } idx={ idx } />
-            </Link>
-          ))
-      ) : (
-        recipe
-          .map((drink, idx) => (
-            <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
-              <Card key={ drink.idDrink } param={ drink } idx={ idx } />
-            </Link>
-          ))
-      )}
-    </div>
+    <>
+      <div>
+        <BtnCategories />
+        <button
+          type="button"
+          data-testid="All-category-filter"
+          onClick={ handleResetFilters }
+        >
+          All
+        </button>
+        {pathname === '/meals' ? (
+          recipe
+            .map((meal, idx) => (
+              <Link to={ `/meals/${meal.idMeal}` } key={ meal.idMeal }>
+                <Card key={ meal.idMeal } param={ meal } idx={ idx } />
+              </Link>
+            ))
+        ) : (
+          recipe
+            .map((drink, idx) => (
+              <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
+                <Card key={ drink.idDrink } param={ drink } idx={ idx } />
+              </Link>
+            ))
+        )}
+      </div>
+      <Footer />
+    </>
   );
 }
 
