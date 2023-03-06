@@ -3,13 +3,13 @@ import { useHistory } from 'react-router';
 import '../App.css';
 
 function Profile() {
-  // const user = JSON.parse(localStorage.getItem('user')); //não tenho acesso ainda
+  const user = JSON.parse(localStorage.getItem('user'));
   const history = useHistory();
-
+  const { email } = user;
   return (
     <div className="profile-main-div">
       <h2>PROFILE</h2>
-      <h3 data-testid="profile-email">email</h3>
+      <h3 data-testid="profile-email">{ email }</h3>
       <button
         data-testid="profile-done-btn"
         onClick={ () => history.push('/done-recipes') }
@@ -25,8 +25,10 @@ function Profile() {
       </button>
       <button
         data-testid="profile-logout-btn"
-        onClick={ () => history.push('/') }
-
+        onClick={ () => {
+          localStorage.setItem('user', JSON.stringify({}));
+          history.push('/');
+        } }
       >
         Logout
       </button>
