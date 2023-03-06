@@ -48,7 +48,6 @@ function RecipesDetails() {
           onClick={ () => shareRecipe() }
         >
           Compartilhar
-          //! teste
         </button>
         <button
           data-testid="favorite-btn"
