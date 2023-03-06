@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { STOP_ARRAY_CATEGORIES } from '../Helpers/genericConsts';
-import { SELECTED_CATEGORY } from '../redux/Actions/typeActions';
+import { selectedCategory } from '../redux/Actions/index';
 import { drinksCategoriesApi, mealsCategoriesApi } from '../services/api';
 
 function BtnCategories() {
@@ -24,10 +24,10 @@ function BtnCategories() {
 
   const handleClick = ({ target }) => {
     if (target.innerText === currentCategory) {
-      dispatch({ type: SELECTED_CATEGORY, payload: '' });
+      dispatch(selectedCategory(''));
       setcurrentCategory('');
     } else {
-      dispatch({ type: SELECTED_CATEGORY, payload: target.innerText });
+      dispatch(selectedCategory(target.innerText));
       setcurrentCategory(target.innerText);
     }
   };

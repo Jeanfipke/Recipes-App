@@ -2,12 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import './RecipesDetails.css';
-import { STOP_ARRAY_RECOMENDATION } from '../Helpers/genericConsts';
-import { detailsRecipesApi, recipeAPI } from '../services/api';
+import { detailsRecipesApi } from '../services/api';
+import RecomendationCard from '../componentes/RecomendationCard';
 
 function RecipesDetails() {
   const [recipe, setRecipe] = useState([]);
-  const [recomendations, setRecomendation] = useState([]);
   const [indredients, setIndredients] = useState([]);
   const [measure, setMeasure] = useState([]);
 
@@ -17,21 +16,10 @@ function RecipesDetails() {
   //* Destructuring pathname
   const [recipeType, id] = pathname.split('/').splice(1);
 
-  const recomendationType = recipeType === 'meals'
-    ? 'Drinks' : 'Meals';
-
   const api = useCallback(async () => {
     const recipeURL = recipeType === 'meals'
       ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
       : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-
-    const recomendationURL = recipeType === 'meals'
-      ? 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
-      : 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-
-    const resultRecomendation = await recipeAPI(recomendationURL);
-    setRecomendation(resultRecomendation[recomendationType.toLocaleLowerCase()]
-      .splice(0, STOP_ARRAY_RECOMENDATION));
 
     const result = await detailsRecipesApi(recipeURL);
     setRecipe(result[recipeType]);
@@ -49,7 +37,7 @@ function RecipesDetails() {
         .includes('strMeasure') && e[1] !== '' && e[1] !== null)
       .map((e) => e[1]);
     setMeasure(measureArray);
-  }, [recipeType, id, recomendationType]);
+  }, [recipeType, id]);
 
   const handlePrev = () => {
     // const marginAndBorder = 15;
@@ -116,25 +104,7 @@ function RecipesDetails() {
               />
               <br />
               <div className="d-flex carousel" ref={ carousel }>
-                {recomendations
-                // {recomendations.slice(carousel, carousel + 2)
-                  .map((recomendation, index) => (
-                    <div
-                      key={ index }
-                      data-testid={ `${index}-recommendation-card` }
-                      className="carousel-item"
-                    >
-                      <h2 data-testid={ `${index}-recommendation-title` }>
-                        {Object.entries(recomendation)[1][1]}
-                      </h2>
-                      <img
-                        className="carousel-img"
-                        src={ Object.entries(recomendation)[16][1] }
-                        // width="100px"
-                        alt={ Object.entries(recomendation)[1][1] }
-                      />
-                    </div>
-                  ))}
+                <RecomendationCard thumb={ 16 } />
               </div>
               <button onClick={ handlePrev }>Prev</button>
               <button onClick={ handleNext }>Next</button>
@@ -177,25 +147,7 @@ function RecipesDetails() {
               <p data-testid="instructions">{strInstructions}</p>
               <br />
               <div className="d-flex carousel" ref={ carousel }>
-                {recomendations
-                // {recomendations.slice(carousel, carousel + 2)
-                  .map((recomendation, index) => (
-                    <div
-                      key={ index }
-                      data-testid={ `${index}-recommendation-card` }
-                      className="carousel-item"
-                    >
-                      <h2 data-testid={ `${index}-recommendation-title` }>
-                        {Object.entries(recomendation)[1][1]}
-                      </h2>
-                      <img
-                        className="carousel-img"
-                        src={ Object.entries(recomendation)[6][1] }
-                        // width="100px"
-                        alt={ Object.entries(recomendation)[1][1] }
-                      />
-                    </div>
-                  ))}
+                <RecomendationCard thumb={ 6 } />
               </div>
               <button onClick={ handlePrev }>Prev</button>
               <button onClick={ handleNext }>Next</button>
