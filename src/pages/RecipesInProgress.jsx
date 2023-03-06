@@ -1,8 +1,12 @@
 import React from 'react';
+import Header from '../componentes/Header';
 
 function RecipesInProgress() {
   return (
-    <div>RecipesInProgress</div>
+    <>
+      <Header />
+      <div>RecipesInProgress</div>
+    </>
   );
 }
 

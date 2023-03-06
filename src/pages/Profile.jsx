@@ -1,7 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import '../App.css';
+import Header from '../componentes/Header';
 import Footer from '../componentes/Footer';
+
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -9,6 +11,7 @@ function Profile() {
   const { email } = user;
   return (
     <div className="profile-main-div">
+      <Header />
       <h2>PROFILE</h2>
       <h3 data-testid="profile-email">{ email }</h3>
       <button

@@ -6,6 +6,7 @@ import Footer from '../componentes/Footer';
 import BtnCategories from '../componentes/BtnCategories';
 import Card from '../componentes/Card';
 import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
+import Header from '../componentes/Header';
 import { SELECTED_CATEGORY } from '../redux/Actions/typeActions';
 import { recipeAPI } from '../services/api';
 
@@ -51,34 +52,33 @@ function Recipes() {
   }, [api]);
 
   return (
-    <>
-      <div>
-        <BtnCategories />
-        <button
-          type="button"
-          data-testid="All-category-filter"
-          onClick={ handleResetFilters }
-        >
-          All
-        </button>
-        {pathname === '/meals' ? (
-          recipe
-            .map((meal, idx) => (
-              <Link to={ `/meals/${meal.idMeal}` } key={ meal.idMeal }>
-                <Card key={ meal.idMeal } param={ meal } idx={ idx } />
-              </Link>
-            ))
-        ) : (
-          recipe
-            .map((drink, idx) => (
-              <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
-                <Card key={ drink.idDrink } param={ drink } idx={ idx } />
-              </Link>
-            ))
-        )}
-      </div>
+    <div>
+      <Header />
+      <BtnCategories />
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ handleResetFilters }
+      >
+        All
+      </button>
+      {pathname === '/meals' ? (
+        recipe
+          .map((meal, idx) => (
+            <Link to={ `/meals/${meal.idMeal}` } key={ meal.idMeal }>
+              <Card key={ meal.idMeal } param={ meal } idx={ idx } />
+            </Link>
+          ))
+      ) : (
+        recipe
+          .map((drink, idx) => (
+            <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
+              <Card key={ drink.idDrink } param={ drink } idx={ idx } />
+            </Link>
+          ))
+      )}
       <Footer />
-    </>
+    </div>
   );
 }
 
