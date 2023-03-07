@@ -8,10 +8,10 @@ function RecipesInProgress() {
   const [recipe, setRecipe] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
 
   const { pathname } = useLocation();
   const [recipeType, id] = pathname.split('/').splice(1);
-  console.log(recipeType);
 
   const api = useCallback(async () => {
     const recipeURL = recipeType === 'meals'
@@ -35,6 +35,12 @@ function RecipesInProgress() {
       .map((e) => e[1]);
     setMeasure(measureArray);
   }, [recipeType, id]);
+
+  const handleCheck = (e) => {
+    const item = e.target.name;
+    const isChecked = e.target.checked;
+    setCheckedItems({ ...checkedItems, [item]: isChecked });
+  };
 
   useEffect(() => {
     api();
@@ -76,11 +82,14 @@ function RecipesInProgress() {
                     htmlFor={ `${ingredient}${idx}` }
                     key={ idx }
                     data-testid={ `${idx}-ingredient-step` }
+                    className={ checkedItems[ingredient] ? 'line-through' : '' }
                   >
                     <input
                       id={ `${ingredient}${idx}` }
                       name={ `${ingredient}` }
                       type="checkbox"
+                      checked={ checkedItems[ingredient] }
+                      onChange={ handleCheck }
                     />
                     <li
                       data-testid={ `${idx}-ingredient-name-and-measure` }
@@ -139,11 +148,14 @@ function RecipesInProgress() {
                     htmlFor={ `${ingredient}${idx}` }
                     key={ idx }
                     data-testid={ `${idx}-ingredient-step` }
+                    className={ checkedItems[ingredient] ? 'line-through' : '' }
                   >
                     <input
                       id={ `${ingredient}${idx}` }
                       name={ `${ingredient}` }
                       type="checkbox"
+                      checked={ checkedItems[ingredient] }
+                      onChange={ handleCheck }
                     />
                     <li
                       data-testid={ `${idx}-ingredient-name-and-measure` }
