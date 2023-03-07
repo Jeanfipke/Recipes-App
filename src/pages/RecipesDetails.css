@@ -53,6 +53,10 @@ body {
   /* gap: 15px; */
 }
 
+.btnNext {
+  justify-content: center;
+}
+
 @media ( max-width : 640 ) {
 
   .carousel-img {

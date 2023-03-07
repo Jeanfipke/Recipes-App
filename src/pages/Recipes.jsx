@@ -6,8 +6,6 @@ import Card from '../componentes/Card';
 import BtnCategories from '../componentes/BtnCategories';
 import Footer from '../componentes/Footer';
 
-import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
-import { recipeAPI } from '../services/api';
 import { selectedCategory } from '../redux/Actions';
 import { ApiCheck } from '../Helpers/functionsExt';
 
