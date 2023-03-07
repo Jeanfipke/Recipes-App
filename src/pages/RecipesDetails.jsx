@@ -111,8 +111,10 @@ function RecipesDetails() {
               <div className="d-flex carousel" ref={ carousel }>
                 <RecomendationCard thumb={ 16 } />
               </div>
-              <button onClick={ handlePrev }>Prev</button>
-              <button onClick={ handleNext }>Next</button>
+              <div className="d-flex btnNext">
+                <button onClick={ handlePrev }>Prev</button>
+                <button onClick={ handleNext }>Next</button>
+              </div>
               <BtnRecipesDetails
                 idRecipe={ idMeal }
                 type="meals"
@@ -159,8 +161,10 @@ function RecipesDetails() {
               <div className="d-flex carousel" ref={ carousel }>
                 <RecomendationCard thumb={ 6 } />
               </div>
-              <button onClick={ handlePrev }>Prev</button>
-              <button onClick={ handleNext }>Next</button>
+              <div className="d-flex">
+                <button className="" onClick={ handlePrev }>Prev</button>
+                <button onClick={ handleNext }>Next</button>
+              </div>
               <BtnRecipesDetails
                 idRecipe={ idDrink }
                 type="drinks"
