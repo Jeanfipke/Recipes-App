@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import Footer from '../componentes/Footer';
 
-import Card from '../componentes/Card';
 import BtnCategories from '../componentes/BtnCategories';
+import Card from '../componentes/Card';
 import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
 import { recipeAPI } from '../services/api';
 import { selectedCategory } from '../redux/Actions';
+import Header from '../componentes/Header';
+
 
 function Recipes() {
   const { pathname } = useLocation();
@@ -51,6 +54,7 @@ function Recipes() {
 
   return (
     <div>
+      <Header />
       <BtnCategories />
       <button
         type="button"
@@ -74,6 +78,7 @@ function Recipes() {
             </Link>
           ))
       )}
+      <Footer />
     </div>
   );
 }

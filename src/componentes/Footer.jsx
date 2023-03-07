@@ -1,8 +1,27 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import drinkIcon from '../images/drinkIcon.svg';
+import mealIcon from '../images/mealIcon.svg';
+import './styles/footer.css';
 
 function Footer() {
+  const history = useHistory();
+  const clickDrinks = () => {
+    history.push('/drinks');
+  };
+  const clickMeals = () => {
+    history.push('/meals');
+  };
+
   return (
-    <div>Footer</div>
+    <div data-testid="footer" className="footer">
+      <button type="button" className="button" onClick={ () => clickDrinks() }>
+        <img data-testid="drinks-bottom-btn" src={ drinkIcon } alt="Drinks" />
+      </button>
+      <button type="button" className="button" onClick={ () => clickMeals() }>
+        <img data-testid="meals-bottom-btn" src={ mealIcon } alt="Meals" />
+      </button>
+    </div>
   );
 }
 
