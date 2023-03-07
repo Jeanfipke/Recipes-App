@@ -6,14 +6,14 @@ import Footer from '../componentes/Footer';
 import BtnCategories from '../componentes/BtnCategories';
 import Card from '../componentes/Card';
 import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
-import Header from '../componentes/Header';
-import { SELECTED_CATEGORY } from '../redux/Actions/typeActions';
 import { recipeAPI } from '../services/api';
+import { selectedCategory } from '../redux/Actions';
+import Header from '../componentes/Header';
 
 function Recipes() {
   const { pathname } = useLocation();
   const category = useSelector((state) => state.categories);
-  console.log('category', category);
+  /* console.log('category', category); */
 
   const [recipe, setRecipe] = useState([]);
 
@@ -44,7 +44,7 @@ function Recipes() {
   }, [category.category, pathname, typeRicepe]);
 
   const handleResetFilters = () => {
-    dispatch({ type: SELECTED_CATEGORY, payload: '' });
+    dispatch(selectedCategory(''));
   };
 
   useEffect(() => {
