@@ -7,7 +7,6 @@ const INITIAL_STATE = {
 const categories = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case SELECTED_CATEGORY:
-    console.log(action);
     return {
       ...state,
       category: action.payload,

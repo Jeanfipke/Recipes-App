@@ -4,7 +4,6 @@ import { STOP_ARRAY_RECOMENDATION } from '../Helpers/genericConsts';
 import { recipeAPI } from '../services/api';
 
 function RecomendationCard({ thumb }) {
-  console.log(thumb);
   const [recomendations, setRecomendation] = useState([]);
 
   const { pathname } = useLocation();
@@ -20,6 +19,7 @@ function RecomendationCard({ thumb }) {
 
     const resultRecomendation = await recipeAPI(recomendationURL);
 
+    // console.log(resultRecomendation[recomendationType.toLocaleLowerCase()]);
     const spliced = resultRecomendation[recomendationType.toLocaleLowerCase()]
       .slice(0, STOP_ARRAY_RECOMENDATION);
 

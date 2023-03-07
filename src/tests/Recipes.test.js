@@ -59,7 +59,7 @@ describe('Testes para a página Recipes', () => {
     expect(buttonList[7].innerHTML).toBe('All');
   });
 
-  it('Testa buttons de categoria', async () => {
+  it.only('Testa buttons de categoria', async () => {
     // jest.resetAllMocks();
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
@@ -81,9 +81,10 @@ describe('Testes para a página Recipes', () => {
 
       expect(AllButton).toBeInTheDocument();
       expect(firstButton).toBeInTheDocument();
-      userEvent.click(firstButton);
-
       expect(firstButton.innerHTML).toBe('Vegetarian');
+      act(() => {
+        userEvent.click(firstButton);
+      });
       userEvent.click(AllButton);
     });
   });
