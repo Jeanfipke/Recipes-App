@@ -25,7 +25,6 @@ describe('Testes para a página Recipes', () => {
     const url1 = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
     const url2 = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
 
-    console.log(fetch);
     expect(fetch).toBeCalled();
     expect(fetch).toBeCalledTimes(2);
     expect(fetch).toBeCalledWith(url1);
@@ -36,8 +35,8 @@ describe('Testes para a página Recipes', () => {
     expect(recipeList[0].innerHTML).toBe('Corba');
 
     const buttonList = await screen.findAllByRole('button');
-    expect(buttonList).toHaveLength(6);
-    expect(buttonList[5].innerHTML).toBe('All');
+    expect(buttonList).toHaveLength(10);
+    expect(buttonList[7].innerHTML).toBe('All');
   });
 
   it('Testa se a página renderiza corretamente a rota /drinks', async () => {
@@ -56,11 +55,12 @@ describe('Testes para a página Recipes', () => {
     expect(recipeList[0].innerHTML).toBe('GG');
 
     const buttonList = await screen.findAllByRole('button');
-    expect(buttonList).toHaveLength(6);
-    expect(buttonList[5].innerHTML).toBe('All');
+    expect(buttonList).toHaveLength(10);
+    expect(buttonList[7].innerHTML).toBe('All');
   });
 
   it('Testa buttons de categoria', async () => {
+    // jest.resetAllMocks();
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
       json: jest.fn().mockResolvedValue(meals),
@@ -76,11 +76,15 @@ describe('Testes para a página Recipes', () => {
     });
 
     await waitFor(() => {
-      const firstButton = screen.getByRole('button', { name: 'beef' });
+      const firstButton = screen.getByRole('button', { name: 'Vegetarian' });
+      const AllButton = screen.getByRole('button', { name: 'All' });
 
+      expect(AllButton).toBeInTheDocument();
       expect(firstButton).toBeInTheDocument();
       userEvent.click(firstButton);
-      expect(firstButton).toBe('beef');
+
+      expect(firstButton.innerHTML).toBe('Vegetarian');
+      userEvent.click(AllButton);
     });
   });
 });
