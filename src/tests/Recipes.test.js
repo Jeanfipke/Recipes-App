@@ -82,6 +82,7 @@ describe('Testes para a página Recipes', () => {
       expect(AllButton).toBeInTheDocument();
       expect(firstButton).toBeInTheDocument();
       userEvent.click(firstButton);
+
       expect(firstButton.innerHTML).toBe('Vegetarian');
       userEvent.click(AllButton);
     });
