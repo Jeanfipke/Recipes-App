@@ -4,7 +4,6 @@ import '../App.css';
 import Header from '../componentes/Header';
 import Footer from '../componentes/Footer';
 
-
 function Profile() {
   const user = JSON.parse(localStorage.getItem('user'));
   const history = useHistory();
