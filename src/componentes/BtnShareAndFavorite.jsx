@@ -1,11 +1,19 @@
-import React from 'react';
-import copy from 'clipboard-copy';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import ShareImage from '../images/shareIcon.svg';
+import PropTypes from 'prop-types';
 
-function BtnShareAndFavorite() {
+import copy from 'clipboard-copy';
+import Swal from 'sweetalert2';
+
+import ShareImage from '../images/shareIcon.svg';
+import UnfavoriteImage from '../images/whiteHeartIcon.svg';
+import FavoriteImage from '../images/blackHeartIcon.svg';
+
+function BtnShareAndFavorite({ recipe }) {
   const { pathname } = useLocation();
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const [recipeType, id] = pathname.split('/').splice(1);
 
   const shareRecipe = () => {
     copy(`http://localhost:3000${pathname}`);
@@ -20,25 +28,84 @@ function BtnShareAndFavorite() {
   };
 
   const favoriteRecipe = () => {
-    console.log('favorite');
+    const prevStorage = JSON
+      .parse(localStorage.getItem('favoriteRecipes') || '[]');
+
+    if (prevStorage.some((prevId) => prevId.id === id)) {
+      const favoriteRemoved = prevStorage.filter((prevId) => prevId.id !== id);
+      localStorage
+        .setItem('favoriteRecipes', JSON.stringify(favoriteRemoved));
+      setIsFavorite(false);
+      return null;
+    }
+
+    if (recipeType === 'meals') {
+      const { idMeal, strArea, strCategory, strMeal, strMealThumb } = recipe[0];
+      localStorage
+        .setItem('favoriteRecipes', JSON.stringify([...prevStorage, {
+          id: idMeal,
+          type: 'meal',
+          nationality: strArea || '',
+          category: strCategory || '',
+          alcoholicOrNot: '',
+          name: strMeal,
+          image: strMealThumb,
+        }]));
+      setIsFavorite(true);
+    } else {
+      const { idDrink, strAlcoholic, strCategory, strDrink, strDrinkThumb } = recipe[0];
+      localStorage
+        .setItem('favoriteRecipes', JSON.stringify([...prevStorage, {
+          id: idDrink,
+          type: 'drink',
+          nationality: '',
+          category: strCategory || '',
+          alcoholicOrNot: strAlcoholic,
+          name: strDrink,
+          image: strDrinkThumb,
+        }]));
+      setIsFavorite(true);
+    }
   };
+
+  const checkIsFavorite = useCallback(() => {
+    const prevStorage = JSON
+      .parse(localStorage.getItem('favoriteRecipes') || '[]');
+
+    const favoriteResult = prevStorage.some((prevId) => prevId.id === id);
+    setIsFavorite(favoriteResult);
+  }, [id]);
+
+  useEffect(() => {
+    checkIsFavorite();
+  }, [checkIsFavorite]);
 
   return (
     <div>
       <button
         data-testid="share-btn"
-        onClick={ () => shareRecipe() }
+        onClick={ shareRecipe }
       >
         <img src={ ShareImage } alt="Share Recipe" />
       </button>
       <button
-        data-testid="favorite-btn"
-        onClick={ () => favoriteRecipe() }
+        // data-testid="favorite-btn"
+        onClick={ favoriteRecipe }
       >
-        Favorite
+        <img
+          data-testid="favorite-btn"
+          src={ isFavorite ? FavoriteImage : UnfavoriteImage }
+          alt="Favorite Recipe"
+        />
       </button>
     </div>
   );
 }
+
+BtnShareAndFavorite.propTypes = {
+  recipe: PropTypes.shape({
+
+  }).isRequired,
+};
 
 export default BtnShareAndFavorite;
