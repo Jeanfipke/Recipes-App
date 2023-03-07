@@ -72,14 +72,24 @@ function RecipesInProgress() {
               <h3 data-testid="recipe-category">{strCategory}</h3>
               <ul>
                 {ingredients.map((ingredient, idx) => (
-                  <li
+                  <label
+                    htmlFor={ `${ingredient}${idx}` }
                     key={ idx }
-                    data-testid={ `${idx}-ingredient-name-and-measure` }
+                    data-testid={ `${idx}-ingredient-step` }
                   >
-                    {ingredient}
-                    {' '}
-                    {measure[idx]}
-                  </li>
+                    <input
+                      id={ `${ingredient}${idx}` }
+                      name={ `${ingredient}` }
+                      type="checkbox"
+                    />
+                    <li
+                      data-testid={ `${idx}-ingredient-name-and-measure` }
+                    >
+                      {ingredient}
+                      {' '}
+                      {measure[idx]}
+                    </li>
+                  </label>
                 ))}
               </ul>
               <p data-testid="instructions">{strInstructions}</p>
@@ -125,13 +135,23 @@ function RecipesInProgress() {
               </h3>
               <ul>
                 {ingredients.map((ingredient, idx) => (
-                  <li
+                  <label
+                    htmlFor={ `${ingredient}${idx}` }
                     key={ idx }
-                    data-testid={ `${idx}-ingredient-name-and-measure` }
+                    data-testid={ `${idx}-ingredient-step` }
                   >
-                    {ingredient}
-                    {measure[idx]}
-                  </li>
+                    <input
+                      id={ `${ingredient}${idx}` }
+                      name={ `${ingredient}` }
+                      type="checkbox"
+                    />
+                    <li
+                      data-testid={ `${idx}-ingredient-name-and-measure` }
+                    >
+                      {ingredient}
+                      {measure[idx]}
+                    </li>
+                  </label>
                 ))}
               </ul>
               <p data-testid="instructions">{strInstructions}</p>
