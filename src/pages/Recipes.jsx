@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { Link, useLocation } from 'react-router-dom';
+import Header from '../componentes/Header';
 import Card from '../componentes/Card';
 import BtnCategories from '../componentes/BtnCategories';
+import Footer from '../componentes/Footer';
+
 import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
 import { recipeAPI } from '../services/api';
-import { selectedCategory } from '../redux/Actions/index';
+import { selectedCategory } from '../redux/Actions';
+import { ApiCheck } from '../Helpers/functionsExt';
 
 function Recipes() {
   const { pathname } = useLocation();
@@ -19,25 +22,9 @@ function Recipes() {
   const typeRicepe = pathname.split('/')[1];
 
   const api = useCallback(async () => {
-    try {
-      let URL_RECIPE = pathname === '/meals'
-        ? `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category.category}`
-        : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category.category}`;
-      if (!category.category) {
-        URL_RECIPE = pathname === '/meals'
-          ? 'https://www.themealdb.com/api/json/v1/1/search.php?s='
-          : 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-      }
-      const results = await recipeAPI(URL_RECIPE);
-      if (results[typeRicepe]?.length > STOP_ARRAY_RECIPES) {
-        const resultsRecipe = results[typeRicepe].slice(0, STOP_ARRAY_RECIPES);
-        return setRecipe(resultsRecipe);
-      }
-      const resultsRecipe = results[typeRicepe];
-      return setRecipe(resultsRecipe);
-    } catch (error) {
-      console.error(error);
-    }
+    const endPoint = category.category;
+    const resp = await ApiCheck(pathname, endPoint, typeRicepe);
+    return setRecipe(resp);
   }, [category.category, pathname, typeRicepe]);
 
   const handleResetFilters = () => {
@@ -47,9 +34,9 @@ function Recipes() {
   useEffect(() => {
     api();
   }, [api]);
-
   return (
     <div>
+      <Header />
       <BtnCategories />
       <button
         type="button"
@@ -73,6 +60,7 @@ function Recipes() {
             </Link>
           ))
       )}
+      <Footer />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { STOP_ARRAY_CATEGORIES } from '../Helpers/genericConsts';
-import { selectedCategory } from '../redux/Actions/index';
+import { selectedCategory } from '../redux/Actions';
 import { drinksCategoriesApi, mealsCategoriesApi } from '../services/api';
 
 function BtnCategories() {
