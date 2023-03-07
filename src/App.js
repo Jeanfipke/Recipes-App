@@ -22,7 +22,7 @@ function App() {
       <Route exact path="/meals" component={ Recipes } />
       <Route path="/profile" component={ Profile } />
       <Route exact path="/" component={ Login } />
-      <Route path="*" component={ NotFound } />
+      <Route path="/*" component={ NotFound } />
     </Switch>
   );
 }
