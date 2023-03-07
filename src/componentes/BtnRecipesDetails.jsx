@@ -77,7 +77,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients }) {
     </div>
   );
 }
-
+// teste
 BtnRecipesDetails.propTypes = {
   idRecipe: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
