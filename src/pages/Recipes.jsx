@@ -10,7 +10,6 @@ import { recipeAPI } from '../services/api';
 import { selectedCategory } from '../redux/Actions';
 import Header from '../componentes/Header';
 
-
 function Recipes() {
   const { pathname } = useLocation();
   const category = useSelector((state) => state.categories);
