@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import Header from '../componentes/Header';
+import Card from '../componentes/Card';
+import BtnCategories from '../componentes/BtnCategories';
 import Footer from '../componentes/Footer';
 
-import BtnCategories from '../componentes/BtnCategories';
-import Card from '../componentes/Card';
 import { selectedCategory } from '../redux/Actions';
-import Header from '../componentes/Header';
 import { ApiCheck } from '../Helpers/functionsExt';
 
 function Recipes() {
