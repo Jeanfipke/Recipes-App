@@ -29,26 +29,28 @@ function FavoriteRecipes() {
     <>
       <Header />
       <main>
-        <button
-          data-testid="filter-by-all-btn"
-          onClick={ () => {} }
-        >
-          All
-        </button>
+        <div>
+          <button
+            data-testid="filter-by-all-btn"
+            onClick={ () => {} }
+          >
+            All
+          </button>
 
-        <button
-          data-testid="filter-by-meal-btn"
-          onClick={ () => {} }
-        >
-          Meals
-        </button>
+          <button
+            data-testid="filter-by-meal-btn"
+            onClick={ () => {} }
+          >
+            Meals
+          </button>
 
-        <button
-          data-testid="filter-by-drink-btn"
-          onClick={ () => {} }
-        >
-          Drinks
-        </button>
+          <button
+            data-testid="filter-by-drink-btn"
+            onClick={ () => {} }
+          >
+            Drinks
+          </button>
+        </div>
       </main>
     </>
   );
