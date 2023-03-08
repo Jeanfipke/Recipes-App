@@ -8,6 +8,7 @@ function RecipesInProgress() {
   const [recipe, setRecipe] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+  const [AllChecked, setAllChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState({});
 
   const { pathname } = useLocation();
@@ -40,11 +41,66 @@ function RecipesInProgress() {
     const item = e.target.name;
     const isChecked = e.target.checked;
     setCheckedItems({ ...checkedItems, [item]: isChecked });
+
+    const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const ingredientsListStorage = storage[recipeType][id];
+    const newIngredientsList = ingredientsListStorage.map((ingredient) => {
+      if (item === Object.keys(ingredient)[0]) {
+        return { [item]: isChecked };
+      }
+      return ingredient;
+    });
+    const newStorage = {
+      ...storage,
+      [recipeType]: {
+        ...storage[recipeType],
+        [id]: newIngredientsList,
+      },
+    };
+
+    localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
   };
 
+  const getStorage = useCallback(() => {
+    const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (storage && storage[recipeType] && storage[recipeType][id]) {
+      const ingredientsList = storage[recipeType][id];
+      const checkedI = ingredientsList.reduce((acc, ingredient) => {
+        const [key, value] = Object.entries(ingredient)[0];
+        return { ...acc, [key]: value };
+      }, {});
+      setCheckedItems(checkedI);
+    }
+  }, [recipeType, id]);
+
+  const changeAllChecked = useCallback(() => {
+    // console.log('checkedItems', Object.keys(checkedItems).length);
+    const allChecked = Object.values(checkedItems).every((item) => item !== false);
+    // console.log(allChecked);
+
+    if (ingredients.length === Object.keys(checkedItems).length && allChecked) {
+      console.log('ENTREI true');
+      setAllChecked(allChecked);
+    } else {
+      // console.log('ENTREI2');
+      setAllChecked(false);
+    }
+    // setAllChecked(Object.values(checkedItems).every((item) => item));
+  }, [checkedItems, ingredients]);
+
   useEffect(() => {
+    changeAllChecked();
+  }, [checkedItems, changeAllChecked]);
+
+  useEffect(() => {
+    getStorage();
     api();
-  }, [api]);
+  }, [api, getStorage]);
+
+  console.log('ultimo', AllChecked);
+
+  // console.log(Object.values(checkedItems).every((item) => item));
+
   return (
     <div>
       <Header />
@@ -116,6 +172,7 @@ function RecipesInProgress() {
                 idRecipe={ idMeal }
                 type="meals"
                 ingredients={ ingredients }
+                AllChecked={ AllChecked }
               />
             </main>
           ))

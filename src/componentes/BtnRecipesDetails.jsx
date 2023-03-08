@@ -2,13 +2,17 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
 
-function BtnRecipesDetails({ idRecipe, type, ingredients }) {
+function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked }) {
+  console.log(AllChecked);
   const [isFinished, setIsFinished] = useState(false);
   const [startMessage, setStartMessage] = useState(true);
   const history = useHistory();
   const { pathname } = useLocation();
   const progress = pathname.split('/').splice(1);
-  console.log(progress);
+
+  const listIngredients = ingredients.map((ingredient) => (
+    { [ingredient]: false }
+  ));
 
   const startRecipe = (id, recipe) => {
     const prevStorage = JSON
@@ -21,7 +25,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients }) {
           },
           meals: {
             ...prevStorage.meals,
-            [id]: ingredients,
+            [id]: listIngredients,
           },
         }));
     } else {
@@ -29,7 +33,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients }) {
         .setItem('inProgressRecipes', JSON.stringify({
           drinks: {
             ...prevStorage.drinks,
-            [id]: ingredients,
+            [id]: listIngredients,
           },
           meals: {
             ...prevStorage.meals || {},
@@ -57,8 +61,9 @@ function BtnRecipesDetails({ idRecipe, type, ingredients }) {
   }, [type, idRecipe]);
 
   useEffect(() => {
+    // console.log(AllChecked);
     getLocalStorage();
-  }, [getLocalStorage]);
+  }, [getLocalStorage, AllChecked]);
 
   return (
     <div>
@@ -66,7 +71,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients }) {
         style={ { position: 'fixed', bottom: 0, left: 0 } }
         data-testid={ `${progress[2] === 'in-progress' ? 'finish' : 'start'}-recipe-btn` }
         onClick={ () => startRecipe(idRecipe, type) }
-        disabled={ progress[2] }
+        disabled={ AllChecked ? !AllChecked : progress[2] }
       >
         { startMessage ? ('Start Recipe') : (
           <span>
