@@ -1,7 +1,8 @@
 .profile-main-div {
   display: flex;
   flex-direction: column;
-  
+}
+
 .meals {
   align-items: center;
   background: #0fa36b;
