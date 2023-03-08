@@ -1,4 +1,5 @@
 import React from 'react';
+import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import Header from '../componentes/Header';
 
 function FavoriteRecipes() {
@@ -15,15 +16,7 @@ function FavoriteRecipes() {
   //!     tags: array-de-tags-da-receita-ou-array-vazio
   //! }]
 
-  // *   Todos os data-testids estão presentes:
-  // * O botão de filtro `All` deve ter o atributo `data-testid="filter-by-all-btn"`;
-  // * O botão de filtro `Meals` deve ter o atributo `data-testid="filter-by-meal-btn"`;
-  // * O botão de `Drinks` deve ter o atributo `data-testid="filter-by-drink-btn"`;
-  // ? A imagem do card de receita deve ter o atributo `data-testid="${index}-horizontal-image"`;
-  // ? O texto da categoria da receita deve ter o atributo `data-testid="${index}-horizontal-top-text"`;
-  // ? O texto do nome da receita deve ter o atributo `data-testid="${index}-horizontal-name"`;
-  // ? O elemento de compartilhar a receita deve ter o atributo `data-testid="${index}-horizontal-share-btn"`;
-  // ? O elemento de favoritar a receita deve ter o atributo `data-testid="${index}-horizontal-favorite-btn"`;
+  // todo O elemento de favoritar a receita deve ter o atributo `data-testid="${index}-horizontal-favorite-btn"`;
 
   return (
     <>
@@ -50,6 +43,21 @@ function FavoriteRecipes() {
           >
             Drinks
           </button>
+          {
+            [].map((element, index) => (
+              <div key={ index }>
+                <img src="" alt="" data-testid={ `${index}-horizontal-image` } />
+                <h2
+                  data-testid={ `${index}-horizontal-top-text` }
+                >
+                  {/* categoria */}
+                  {/* nacionalidade ou alcolico */}
+                </h2>
+                <h2 data-testid={ `${index}-horizontal-name` }>Text</h2>
+                <BtnShareAndFavorite />
+              </div>
+            ))
+          }
         </div>
       </main>
     </>

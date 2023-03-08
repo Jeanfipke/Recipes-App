@@ -70,7 +70,7 @@ function RecipesDetails() {
   return (
     <div>
 
-      <BtnShareAndFavorite recipe={ recipe } />
+      <BtnShareAndFavorite recipe={ recipe } recipeType={ recipeType } id={ id } />
 
       {recipeType === 'meals' ? (
         recipe
