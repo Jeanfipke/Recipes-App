@@ -82,11 +82,12 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked }) {
     </div>
   );
 }
-// teste
+
 BtnRecipesDetails.propTypes = {
   idRecipe: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+  AllChecked: PropTypes.bool.isRequired,
 };
 
 export default BtnRecipesDetails;
