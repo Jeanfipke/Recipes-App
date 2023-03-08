@@ -6,6 +6,7 @@ import ShareImage from '../images/shareIcon.svg';
 import UnfavoriteImage from '../images/whiteHeartIcon.svg';
 import FavoriteImage from '../images/blackHeartIcon.svg';
 
+// teste branch
 function BtnShareAndFavorite({ recipe, recipeType, id }) {
   console.log(typeof recipeType, typeof id);
   const [isFavorite, setIsFavorite] = useState(false);

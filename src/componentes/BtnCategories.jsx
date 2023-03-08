@@ -10,7 +10,7 @@ function BtnCategories() {
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
   const [currentCategory, setcurrentCategory] = useState('');
-  // teste commit
+
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
