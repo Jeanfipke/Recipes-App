@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
+import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import Header from '../componentes/Header';
 import { detailsRecipesApi } from '../services/api';
 
@@ -93,24 +94,15 @@ function RecipesInProgress() {
     getStorage();
   }, [api, getStorage]);
 
-  console.log('Allchecked in progress', AllChecked);
-
   return (
     <div>
       <Header />
       <div>
-        <button
-          data-testid="share-btn"
-          onClick={ () => shareRecipe() }
-        >
-          Compartilhar
-        </button>
-        <button
-          data-testid="favorite-btn"
-          onClick={ () => favoriteRecipe() }
-        >
-          Favoritar
-        </button>
+        <BtnShareAndFavorite
+          recipe={ recipe }
+          recipeType={ recipeType }
+          id={ id }
+        />
       </div>
 
       {recipeType === 'meals' ? (
