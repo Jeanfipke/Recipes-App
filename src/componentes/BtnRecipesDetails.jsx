@@ -94,7 +94,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
       nationality: item.strArea || '',
       name: item.strMeal || item.strDrink,
       category: item.strCategory,
-      Image: item.strMealThumb || item.strDrinkThumb,
+      image: item.strMealThumb || item.strDrinkThumb,
       tags: item.strTags || '',
       alcoholicOrNot: item.strAlcoholic || '',
       type: recipetype,
