@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import Header from '../componentes/Header';
 
 function FavoriteRecipes() {
+  const history = useHistory();
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [initial, setInitial] = useState([]);
 
@@ -22,16 +24,21 @@ function FavoriteRecipes() {
     setFilteredFoods(filtered);
   };
 
+  const redirectRecipe = (type, id) => {
+    history.push(`/${type}s/${id}`);
+  };
   const checkIsFavorite = useCallback(() => {
     const prevStorage = JSON
       .parse(localStorage.getItem('favoriteRecipes'));
     setFilteredFoods(prevStorage);
     setInitial(prevStorage);
-  }, []);
+  }, [setInitial]);
 
   useEffect(() => {
     checkIsFavorite();
   }, [checkIsFavorite]);
+
+  // TODO pesquisar como atualizar ao desfavoritar
 
   return (
     <>
@@ -70,17 +77,29 @@ function FavoriteRecipes() {
                 image,
               }, index) => (
                 <div key={ index }>
-                  <img
+
+                  <h2 data-testid={ `${index}-horizontal-top-text` }>
+                    {nationality || alcoholicOrNot}
+                    {' '}
+                    -
+                    {' '}
+                    {category}
+                  </h2>
+                  <button onClick={ () => redirectRecipe(type, id) }>
+                    <h2
+                      data-testid={ `${index}-horizontal-name` }
+                    >
+                      {name}
+                    </h2>
+                  </button>
+                  <input
+                    type="image"
+                    style={ { width: '100px' } }
                     src={ image }
                     alt={ name }
                     data-testid={ `${index}-horizontal-image` }
+                    onClick={ () => redirectRecipe(type, id) }
                   />
-                  <h2 data-testid={ `${index}-horizontal-top-text` }>
-                    {category}
-                    {' '}
-                    {nationality || alcoholicOrNot}
-                  </h2>
-                  <h2 data-testid={ `${index}-horizontal-name` }>{name}</h2>
                   <BtnShareAndFavorite
                     recipe={
                       [{
@@ -95,6 +114,7 @@ function FavoriteRecipes() {
                     recipeType={ `${type}s` }
                     id={ id }
                     favoriteId={ `${index}-horizontal-favorite-btn` }
+                    shareId={ `${index}-horizontal-share-btn` }
                   />
                 </div>
               ))

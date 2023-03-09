@@ -6,7 +6,7 @@ import ShareImage from '../images/shareIcon.svg';
 import UnfavoriteImage from '../images/whiteHeartIcon.svg';
 import FavoriteImage from '../images/blackHeartIcon.svg';
 
-function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId }) {
+function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId, shareId }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const shareRecipe = () => {
     copy(`http://localhost:3000/${recipeType}/${id}`);
@@ -74,11 +74,12 @@ function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId }) {
 
   return (
     <div>
-      <button
-        data-testid="share-btn"
-        onClick={ shareRecipe }
-      >
-        <img src={ ShareImage } alt="Share Recipe" />
+      <button onClick={ shareRecipe }>
+        <img
+          src={ ShareImage }
+          data-testid={ shareId }
+          alt="Share Recipe"
+        />
       </button>
       <button
         onClick={ favoriteRecipe }
@@ -98,6 +99,7 @@ BtnShareAndFavorite.propTypes = {
   recipeType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   favoriteId: PropTypes.string.isRequired,
+  shareId: PropTypes.string.isRequired,
 };
 
 export default BtnShareAndFavorite;

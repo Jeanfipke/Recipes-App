@@ -75,6 +75,7 @@ function RecipesDetails() {
         recipeType={ recipeType }
         id={ id }
         favoriteId="favorite-btn"
+        shareId="share-btn"
       />
 
       {recipeType === 'meals' ? (
