@@ -1,71 +1,37 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import Header from '../componentes/Header';
 
-const mock = [
-  {
-    id: '15997',
-    type: 'drink',
-    nationality: '',
-    alcoholicOrNot: 'Optional alcohol',
-    name: 'GG',
-    image: 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg',
-    doneDate: 'teste',
-    tags: '',
-  },
-  {
-    id: '17222',
-    type: 'drink',
-    nationality: '',
-    alcoholicOrNot: 'Alcoholic',
-    name: 'A1',
-    image: 'https://www.thecocktaildb.com/images/media/drink/2x8thr1504816928.jpg',
-    doneDate: 'teste',
-    tags: '',
-  },
-  {
-    id: '52977',
-    type: 'meal',
-    nationality: 'Turkish',
-    alcoholicOrNot: '',
-    name: 'Corba',
-    image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
-    doneDate: 'teste',
-    tags: 'Soup',
-  },
-  {
-    id: '53060',
-    type: 'meal',
-    nationality: 'Croatian',
-    alcoholicOrNot: '',
-    name: 'Burek',
-    image: 'https://www.themealdb.com/images/media/meals/tkxquw1628771028.jpg',
-    doneDate: 'teste',
-    tags: 'Streetfood, Onthego',
-  },
-];
-
 function FavoriteRecipes() {
-  const [test, setTest] = useState(mock);
-  const [initial] = useState(mock);
-
-  // todo O elemento de favoritar a receita deve ter o atributo `data-testid="${index}-horizontal-favorite-btn"`;
+  const [filteredFoods, setFilteredFoods] = useState([]);
+  const [initial, setInitial] = useState([]);
 
   const filterAll = () => {
-    setTest(initial);
+    setFilteredFoods(initial);
   };
 
   const filterMeals = () => {
-    const teste = [...initial];
-    const filtered = teste.filter(({ type }) => type === 'meal');
-    setTest(filtered);
+    const initialArr = [...initial];
+    const filtered = initialArr.filter(({ type }) => type === 'meal');
+    setFilteredFoods(filtered);
   };
 
   const filterDrinks = () => {
-    const teste = [...initial];
-    const filtered = teste.filter(({ type }) => type === 'drink');
-    setTest(filtered);
+    const initialArr = [...initial];
+    const filtered = initialArr.filter(({ type }) => type === 'drink');
+    setFilteredFoods(filtered);
   };
+
+  const checkIsFavorite = useCallback(() => {
+    const prevStorage = JSON
+      .parse(localStorage.getItem('favoriteRecipes'));
+    setFilteredFoods(prevStorage);
+    setInitial(prevStorage);
+  }, []);
+
+  useEffect(() => {
+    checkIsFavorite();
+  }, [checkIsFavorite]);
 
   return (
     <>
@@ -94,8 +60,7 @@ function FavoriteRecipes() {
           </button>
           <div>
             {
-              // ! 'doneRecipes'
-              test.map(({
+              filteredFoods.map(({
                 id,
                 type,
                 nationality,
