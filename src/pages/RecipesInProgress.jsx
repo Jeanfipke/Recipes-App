@@ -37,12 +37,10 @@ function RecipesInProgress() {
     setMeasure(measureArray);
   }, [recipeType, id]);
 
-  const handleCheck = (e) => {
+  const handleCheck = async (e) => {
     const item = e.target.name;
     const isChecked = e.target.checked;
-    setCheckedItems({ ...checkedItems, [item]: isChecked });
-
-    const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const storage = await JSON.parse(localStorage.getItem('inProgressRecipes'));
     const ingredientsListStorage = storage[recipeType][id];
     const newIngredientsList = ingredientsListStorage.map((ingredient) => {
       if (item === Object.keys(ingredient)[0]) {
@@ -57,8 +55,9 @@ function RecipesInProgress() {
         [id]: newIngredientsList,
       },
     };
-
     localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
+
+    setCheckedItems({ ...checkedItems, [item]: isChecked });
   };
 
   const getStorage = useCallback(() => {
@@ -74,18 +73,13 @@ function RecipesInProgress() {
   }, [recipeType, id]);
 
   const changeAllChecked = useCallback(() => {
-    // console.log('checkedItems', Object.keys(checkedItems).length);
     const allChecked = Object.values(checkedItems).every((item) => item !== false);
-    // console.log(allChecked);
-
     if (ingredients.length === Object.keys(checkedItems).length && allChecked) {
       console.log('ENTREI true');
       setAllChecked(allChecked);
     } else {
-      // console.log('ENTREI2');
       setAllChecked(false);
     }
-    // setAllChecked(Object.values(checkedItems).every((item) => item));
   }, [checkedItems, ingredients]);
 
   useEffect(() => {
@@ -93,13 +87,9 @@ function RecipesInProgress() {
   }, [checkedItems, changeAllChecked]);
 
   useEffect(() => {
-    getStorage();
     api();
+    getStorage();
   }, [api, getStorage]);
-
-  console.log('ultimo', AllChecked);
-
-  // console.log(Object.values(checkedItems).every((item) => item));
 
   return (
     <div>
@@ -173,6 +163,7 @@ function RecipesInProgress() {
                 type="meals"
                 ingredients={ ingredients }
                 AllChecked={ AllChecked }
+                recipeFull={ recipe }
               />
             </main>
           ))
