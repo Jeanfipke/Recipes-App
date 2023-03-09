@@ -43,21 +43,43 @@ function FavoriteRecipes() {
           >
             Drinks
           </button>
-          {
-            [].map((element, index) => (
-              <div key={ index }>
-                <img src="" alt="" data-testid={ `${index}-horizontal-image` } />
-                <h2
-                  data-testid={ `${index}-horizontal-top-text` }
-                >
-                  {/* categoria */}
-                  {/* nacionalidade ou alcolico */}
-                </h2>
-                <h2 data-testid={ `${index}-horizontal-name` }>Text</h2>
-                <BtnShareAndFavorite />
-              </div>
-            ))
-          }
+          <div>
+            {
+              ['doneRecipes'].map(({
+                id,
+                type,
+                nationality,
+                category,
+                alcoholicOrNot,
+                name,
+                image,
+              }, index) => (
+                <div key={ index }>
+                  <img
+                    src={ image }
+                    alt={ name }
+                    data-testid={ `${index}-horizontal-image` }
+                  />
+                  <h2 data-testid={ `${index}-horizontal-top-text` }>
+                    {category}
+                    {' '}
+                    {nationality || alcoholicOrNot}
+                  </h2>
+                  <h2 data-testid={ `${index}-horizontal-name` }>{name}</h2>
+                  <BtnShareAndFavorite
+                    recipe={ { id,
+                      nationality,
+                      category,
+                      alcoholicOrNot,
+                      name,
+                      image } }
+                    recipeType={ `${type}s` }
+                    id={ id }
+                  />
+                </div>
+              ))
+            }
+          </div>
         </div>
       </main>
     </>

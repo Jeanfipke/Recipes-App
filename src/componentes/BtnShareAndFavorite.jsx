@@ -6,12 +6,11 @@ import ShareImage from '../images/shareIcon.svg';
 import UnfavoriteImage from '../images/whiteHeartIcon.svg';
 import FavoriteImage from '../images/blackHeartIcon.svg';
 
-// teste branch
 function BtnShareAndFavorite({ recipe, recipeType, id }) {
-  console.log(typeof recipeType, typeof id);
+  console.log(recipeType, id);
   const [isFavorite, setIsFavorite] = useState(false);
   const shareRecipe = () => {
-    copy(`http://localhost:3000${pathname}`);
+    copy(`http://localhost:3000/${recipeType}/${id}`);
 
     Swal.fire({
       position: 'top-end',
