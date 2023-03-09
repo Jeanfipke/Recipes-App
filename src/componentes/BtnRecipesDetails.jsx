@@ -8,7 +8,6 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
   const history = useHistory();
   const { pathname } = useLocation();
   const progress = pathname.split('/').splice(1);
-  console.log('progress', progress);
 
   const listIngredients = ingredients.map((ingredient) => (
     { [ingredient]: false }
@@ -125,7 +124,6 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
   }, [type, idRecipe]);
 
   useEffect(() => {
-    // console.log(AllChecked);
     getLocalStorage();
   }, [getLocalStorage]);
 

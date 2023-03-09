@@ -19,7 +19,6 @@ function RecomendationCard({ thumb }) {
 
     const resultRecomendation = await recipeAPI(recomendationURL);
 
-    // console.log(resultRecomendation[recomendationType.toLocaleLowerCase()]);
     const spliced = resultRecomendation[recomendationType.toLocaleLowerCase()]
       .slice(0, STOP_ARRAY_RECOMENDATION);
 
@@ -43,7 +42,6 @@ function RecomendationCard({ thumb }) {
         <img
           className="carousel-img"
           src={ Object.entries(recomendation)[thumb][1] }
-          // width="100px"
           alt={ Object.entries(recomendation)[1][1] }
         />
       </div>

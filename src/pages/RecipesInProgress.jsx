@@ -13,8 +13,6 @@ function RecipesInProgress() {
 
   const { pathname } = useLocation();
   const [recipeType, id] = pathname.split('/').splice(1);
-  console.log('recipeType', recipeType);
-  console.log('id', id);
 
   const api = useCallback(async () => {
     const recipeURL = recipeType === 'meals'

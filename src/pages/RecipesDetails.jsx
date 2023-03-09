@@ -42,7 +42,6 @@ function RecipesDetails() {
   }, [recipeType, id]);
 
   const handlePrev = () => {
-    // const marginAndBorder = 15;
     const element = carousel.current;
     const itemWidth = element.children[0].offsetWidth; // largura do primeiro item
     const currentScroll = element.scrollLeft;
@@ -59,8 +58,6 @@ function RecipesDetails() {
     const maxScroll = element.scrollWidth - element.offsetWidth;
     const nextScroll = Math.min(currentScroll + itemWidth, maxScroll);
     element.scrollLeft = nextScroll === maxScroll ? 0 : nextScroll;
-
-    // setCarousel((prev) => (prev + 2 >= recomendations.length ? 0 : prev + 1));
   };
 
   useEffect(() => {
