@@ -38,6 +38,7 @@ describe('Testa a página de perfil', () => {
     await screen.findByRole('button', { name: /done recipes/i });
     await screen.findByRole('button', { name: /favorite recipes/i });
     await screen.findByRole('button', { name: /logout/i });
+    expect(links).toHaveLength(6);
     expect(links).toHaveLength(3);
   });
   test('Testa funcionalidades dos botões', async () => {

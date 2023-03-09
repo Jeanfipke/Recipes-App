@@ -5,13 +5,13 @@ import Header from '../componentes/Header';
 import Footer from '../componentes/Footer';
 
 function Profile() {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem('user')) || {};
   const history = useHistory();
   const { email } = user;
   return (
-    <div className="profile-main-div">
+    <div>
       <Header />
-      <h2>PROFILE</h2>
+
       <h3 data-testid="profile-email">{ email }</h3>
       <button
         data-testid="profile-done-btn"
@@ -29,7 +29,10 @@ function Profile() {
       <button
         data-testid="profile-logout-btn"
         onClick={ () => {
-          localStorage.setItem('user', JSON.stringify({}));
+          localStorage.clear('user');
+          localStorage.clear('doneRecipes');
+          localStorage.clear('favoriteRecipes');
+          localStorage.clear('inProgressRecipes');
           history.push('/');
         } }
       >
