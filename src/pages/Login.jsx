@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import SearchBar from '../componentes/SearchBar';
 
 function Login() {
   const history = useHistory();
@@ -27,38 +28,41 @@ function Login() {
   };
 
   return (
-    <form>
-      <label htmlFor="email">
-        <input
-          type="email"
-          name="email"
-          id="email"
-          data-testid="email-input"
-          placeholder="Email"
-          value={ userEmail }
-          onChange={ ({ target }) => setEmail(target.value) }
-        />
-      </label>
-      <label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          data-testid="password-input"
-          placeholder="Password"
-          value={ password }
-          onChange={ ({ target }) => setPassword(target.value) }
-        />
-      </label>
-      <button
-        type="submit"
-        data-testid="login-submit-btn"
-        disabled={ validated }
-        onClick={ () => handleClick() }
-      >
-        Enter
-      </button>
-    </form>
+    <>
+      <form>
+        <label htmlFor="email">
+          <input
+            type="email"
+            name="email"
+            id="email"
+            data-testid="email-input"
+            placeholder="Email"
+            value={ userEmail }
+            onChange={ ({ target }) => setEmail(target.value) }
+          />
+        </label>
+        <label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            data-testid="password-input"
+            placeholder="Password"
+            value={ password }
+            onChange={ ({ target }) => setPassword(target.value) }
+          />
+        </label>
+        <button
+          type="submit"
+          data-testid="login-submit-btn"
+          disabled={ validated }
+          onClick={ () => handleClick() }
+        >
+          Enter
+        </button>
+      </form>
+      <SearchBar />
+    </>
   );
 }
 
