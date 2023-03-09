@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import copy from 'clipboard-copy';
+
 import BtnDneRecipes from '../componentes/BtnDneRecipes';
 import Header from '../componentes/Header';
 import ShareImage from '../images/shareIcon.svg';
@@ -10,7 +12,7 @@ function DoneRecipes() {
   // const [drinks, setdrinks] = useState([]);
 
   const shareRecipe = (recipeType, id) => {
-    copy(`http://localhost:3000/${recipeType}/${id}`);
+    copy(`http://localhost:3000/${recipeType}s/${id}`);
 
     Swal.fire({
       position: 'top-end',
@@ -39,27 +41,37 @@ function DoneRecipes() {
       <BtnDneRecipes />
       <div>
         {doneRecipes.map((recipe, index) => {
-          console.log(recipe.image);
+          console.log(recipe.nationality);
           return (
             <div key={ index }>
               <img
                 data-testid={ `${index}-horizontal-image` }
-                src={ recipe.Image }
+                src={ recipe.image }
                 alt={ recipe.name }
               />
               <p data-testid={ `${index}-horizontal-top-text` }>
                 {recipe.type === 'meal'
-                  ? `${recipe.area} - ${recipe.category}` : recipe.alcoholicOrNot}
+                  ? `${recipe.nationality} - ${recipe.category}` : recipe.alcoholicOrNot}
               </p>
               <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
               <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
-              <button
-                data-testid={ `${index}-horizontal-share-btn` }
-                onClick={ () => shareRecipe(`${recipe.type}s`, recipe.id) }
-              >
-                <img src={ ShareImage } alt="Share Recipe" />
-              </button>
-              <p data-testid={ `${index}-horizontal-tags` }>{recipe.tags}</p>
+              <label htmlFor="share">
+                <button
+                  type="button"
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  src={ ShareImage }
+                  alt="share"
+                  onClick={ () => shareRecipe(recipe.type, recipe.id) }
+                >
+                  <img src={ ShareImage } alt="share" />
+                </button>
+              </label>
+
+              {recipe.tags.map((tag, indexTag) => (
+                <p key={ indexTag } data-testid={ `${index}-${tag}-horizontal-tag` }>
+                  {tag}
+                </p>
+              )) }
             </div>
           );
         })}
