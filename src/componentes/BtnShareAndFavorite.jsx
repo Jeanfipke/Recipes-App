@@ -1,22 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import copy from 'clipboard-copy';
 import Swal from 'sweetalert2';
-
 import ShareImage from '../images/shareIcon.svg';
 import UnfavoriteImage from '../images/whiteHeartIcon.svg';
 import FavoriteImage from '../images/blackHeartIcon.svg';
 
-function BtnShareAndFavorite({ recipe }) {
-  const { pathname } = useLocation();
+function BtnShareAndFavorite({ recipe, recipeType, id }) {
+  console.log(recipeType, id);
   const [isFavorite, setIsFavorite] = useState(false);
-
-  const [recipeType, id] = pathname.split('/').splice(1);
-
   const shareRecipe = () => {
-    copy(`http://localhost:3000${pathname}`);
+    copy(`http://localhost:3000/${recipeType}/${id}`);
 
     Swal.fire({
       position: 'top-end',
@@ -103,9 +97,9 @@ function BtnShareAndFavorite({ recipe }) {
 }
 
 BtnShareAndFavorite.propTypes = {
-  recipe: PropTypes.shape({
-
-  }).isRequired,
+  recipe: PropTypes.shape({}).isRequired,
+  recipeType: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default BtnShareAndFavorite;

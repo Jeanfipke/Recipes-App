@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Card({ param, idx }) {
-  // console.log({ param, idx });
   return (
     <div data-testid={ `${idx}-recipe-card` }>
       <h2 data-testid={ `${idx}-card-name` }>
