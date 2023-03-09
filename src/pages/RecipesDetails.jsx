@@ -5,6 +5,7 @@ import { detailsRecipesApi } from '../services/api';
 import RecomendationCard from '../componentes/RecomendationCard';
 
 import './RecipesDetails.css';
+import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 
 function RecipesDetails() {
   const [recipe, setRecipe] = useState([]);
@@ -68,20 +69,7 @@ function RecipesDetails() {
   return (
     <div>
 
-      <div>
-        <button
-          data-testid="share-btn"
-          onClick={ () => shareRecipe() }
-        >
-          Compartilhar
-        </button>
-        <button
-          data-testid="favorite-btn"
-          onClick={ () => favoriteRecipe() }
-        >
-          Favoritar
-        </button>
-      </div>
+      <BtnShareAndFavorite recipe={ recipe } />
 
       {recipeType === 'meals' ? (
         recipe
