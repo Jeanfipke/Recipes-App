@@ -87,19 +87,28 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
   };
 
   const doneRecipe = (recipe, recipetype) => {
+    const typeSingular = recipetype === 'meals' ? 'meal' : 'drink';
     const prevStorage = JSON
       .parse(localStorage.getItem('doneRecipes') || '[]');
-    const newRecipe = recipe.map((item) => ({
-      id: item.idMeal || item.idDrink,
-      nationality: item.strArea || '',
-      name: item.strMeal || item.strDrink,
-      category: item.strCategory,
-      image: item.strMealThumb || item.strDrinkThumb,
-      tags: item.strTags || '',
-      alcoholicOrNot: item.strAlcoholic || '',
-      type: recipetype,
-      doneDate: new Date().toISOString(),
-    }));
+    const newRecipe = recipe.map((item) => {
+      let tagsArray = [];
+      if (item.strTags !== null) {
+        tagsArray = item.strTags.includes(',') ? item.strTags.split(',')
+          : [item.strTags];
+      }
+
+      return ({
+        id: item.idMeal || item.idDrink,
+        nationality: item.strArea || '',
+        name: item.strMeal || item.strDrink,
+        category: item.strCategory,
+        image: item.strMealThumb || item.strDrinkThumb,
+        tags: tagsArray,
+        alcoholicOrNot: item.strAlcoholic || '',
+        type: typeSingular,
+        doneDate: new Date().toISOString(),
+      });
+    });
 
     localStorage
       .setItem('doneRecipes', JSON.stringify([
