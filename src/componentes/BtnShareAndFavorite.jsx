@@ -6,12 +6,11 @@ import ShareImage from '../images/shareIcon.svg';
 import UnfavoriteImage from '../images/whiteHeartIcon.svg';
 import FavoriteImage from '../images/blackHeartIcon.svg';
 
-function BtnShareAndFavorite({ recipe, recipeType, id }) {
-  console.log(recipeType, id);
+function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const shareRecipe = () => {
     copy(`http://localhost:3000/${recipeType}/${id}`);
-
+    console.log('teste', recipeType, id);
     Swal.fire({
       position: 'top-end',
       icon: 'success',
@@ -83,11 +82,10 @@ function BtnShareAndFavorite({ recipe, recipeType, id }) {
         <img src={ ShareImage } alt="Share Recipe" />
       </button>
       <button
-        // data-testid="favorite-btn"
         onClick={ favoriteRecipe }
       >
         <img
-          data-testid="favorite-btn"
+          data-testid={ favoriteId }
           src={ isFavorite ? FavoriteImage : UnfavoriteImage }
           alt="Favorite Recipe"
         />
@@ -100,6 +98,7 @@ BtnShareAndFavorite.propTypes = {
   recipe: PropTypes.shape({}).isRequired,
   recipeType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  favoriteId: PropTypes.string.isRequired,
 };
 
 export default BtnShareAndFavorite;
