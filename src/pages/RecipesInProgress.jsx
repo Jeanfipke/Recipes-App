@@ -13,6 +13,8 @@ function RecipesInProgress() {
 
   const { pathname } = useLocation();
   const [recipeType, id] = pathname.split('/').splice(1);
+  console.log('recipeType', recipeType);
+  console.log('id', id);
 
   const api = useCallback(async () => {
     const recipeURL = recipeType === 'meals'
@@ -37,9 +39,7 @@ function RecipesInProgress() {
     setMeasure(measureArray);
   }, [recipeType, id]);
 
-  const handleCheck = async (e) => {
-    const item = e.target.name;
-    const isChecked = e.target.checked;
+  const DidMountLocal = useCallback(async (item, isChecked) => {
     const storage = await JSON.parse(localStorage.getItem('inProgressRecipes'));
     const ingredientsListStorage = storage[recipeType][id];
     const newIngredientsList = ingredientsListStorage.map((ingredient) => {
@@ -56,7 +56,12 @@ function RecipesInProgress() {
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
+  }, [recipeType, id]);
 
+  const handleCheck = async (e) => {
+    const item = e.target.name;
+    const isChecked = e.target.checked;
+    DidMountLocal(item, isChecked);
     setCheckedItems({ ...checkedItems, [item]: isChecked });
   };
 
@@ -75,12 +80,11 @@ function RecipesInProgress() {
   const changeAllChecked = useCallback(() => {
     const allChecked = Object.values(checkedItems).every((item) => item !== false);
     if (ingredients.length === Object.keys(checkedItems).length && allChecked) {
-      console.log('ENTREI true');
       setAllChecked(allChecked);
     } else {
       setAllChecked(false);
     }
-  }, [checkedItems, ingredients]);
+  }, [checkedItems, ingredients, setAllChecked]);
 
   useEffect(() => {
     changeAllChecked();
@@ -90,6 +94,8 @@ function RecipesInProgress() {
     api();
     getStorage();
   }, [api, getStorage]);
+
+  console.log('Allchecked in progress', AllChecked);
 
   return (
     <div>
@@ -216,11 +222,12 @@ function RecipesInProgress() {
               </ul>
               <p data-testid="instructions">{strInstructions}</p>
               <br />
-              <button data-testid="finish-recipe-btn">finish recipe</button>
               <BtnRecipesDetails
                 idRecipe={ idDrink }
                 type="drinks"
                 ingredients={ ingredients }
+                AllChecked={ AllChecked }
+                recipeFull={ recipe }
               />
             </main>
           ))

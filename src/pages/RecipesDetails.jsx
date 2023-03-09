@@ -10,6 +10,7 @@ function RecipesDetails() {
   const [recipe, setRecipe] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+  const [AllChecked, setAllChecked] = useState(false);
 
   const carousel = useRef(null);
 
@@ -64,6 +65,7 @@ function RecipesDetails() {
 
   useEffect(() => {
     api();
+    setAllChecked(false);
   }, [api]);
 
   return (
@@ -131,6 +133,8 @@ function RecipesDetails() {
                 idRecipe={ idMeal }
                 type="meals"
                 ingredients={ ingredients }
+                AllChecked={ AllChecked }
+                recipeFull={ recipe }
               />
             </main>
           ))
@@ -181,6 +185,8 @@ function RecipesDetails() {
                 idRecipe={ idDrink }
                 type="drinks"
                 ingredients={ ingredients }
+                AllChecked={ AllChecked }
+                recipeFull={ recipe }
               />
             </main>
           ))

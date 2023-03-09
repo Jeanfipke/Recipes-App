@@ -8,37 +8,48 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
   const history = useHistory();
   const { pathname } = useLocation();
   const progress = pathname.split('/').splice(1);
+  console.log('progress', progress);
 
   const listIngredients = ingredients.map((ingredient) => (
     { [ingredient]: false }
   ));
   const initialLocal = useCallback(() => {
-    const prevStorage = JSON
-      .parse(localStorage.getItem('inProgressRecipes') || '{}');
-    if (type === 'meals') {
-      localStorage
-        .setItem('inProgressRecipes', JSON.stringify({
-          drinks: {
-            ...prevStorage.drinks || {},
-          },
-          meals: {
-            ...prevStorage.meals,
-            [idRecipe]: listIngredients,
-          },
-        }));
+    if (progress[2] === 'in-progress') {
+      const prevStorage = JSON
+        .parse(localStorage.getItem('inProgressRecipes') || '{}');
+      if (type === 'meals') {
+        localStorage
+          .setItem('inProgressRecipes', JSON.stringify({
+            drinks: {
+              ...prevStorage.drinks || {},
+            },
+            meals: {
+              ...prevStorage.meals,
+              [idRecipe]: listIngredients,
+            },
+          }));
+      } else {
+        localStorage
+          .setItem('inProgressRecipes', JSON.stringify({
+            drinks: {
+              ...prevStorage.drinks,
+              [idRecipe]: listIngredients,
+            },
+            meals: {
+              ...prevStorage.meals || {},
+            },
+          }));
+      }
     } else {
       localStorage
         .setItem('inProgressRecipes', JSON.stringify({
           drinks: {
-            ...prevStorage.drinks,
-            [idRecipe]: listIngredients,
           },
           meals: {
-            ...prevStorage.meals || {},
           },
         }));
     }
-  }, [type, idRecipe, listIngredients]);
+  }, [type, idRecipe, listIngredients, progress]);
 
   useEffect(() => {
     initialLocal();
@@ -116,7 +127,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
   useEffect(() => {
     // console.log(AllChecked);
     getLocalStorage();
-  }, [getLocalStorage, AllChecked]);
+  }, [getLocalStorage]);
 
   return (
     <div>
