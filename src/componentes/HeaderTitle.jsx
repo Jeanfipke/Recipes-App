@@ -25,7 +25,7 @@ function HeaderTitle() {
 
   useEffect(() => {
     getTitle();
-  }, [getTitle]);
+  }, []);
 
   return (
     <h1 data-testid="page-title">{ title }</h1>
