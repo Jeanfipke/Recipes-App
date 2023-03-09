@@ -1,11 +1,58 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
-function BtnRecipesDetails({ idRecipe, type, ingredients }) {
+function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull }) {
   const [isFinished, setIsFinished] = useState(false);
   const [startMessage, setStartMessage] = useState(true);
   const history = useHistory();
+  const { pathname } = useLocation();
+  const progress = pathname.split('/').splice(1);
+
+  const listIngredients = ingredients.map((ingredient) => (
+    { [ingredient]: false }
+  ));
+  const initialLocal = useCallback(() => {
+    if (progress[2] === 'in-progress') {
+      const prevStorage = JSON
+        .parse(localStorage.getItem('inProgressRecipes') || '{}');
+      if (type === 'meals') {
+        localStorage
+          .setItem('inProgressRecipes', JSON.stringify({
+            drinks: {
+              ...prevStorage.drinks || {},
+            },
+            meals: {
+              ...prevStorage.meals,
+              [idRecipe]: listIngredients,
+            },
+          }));
+      } else {
+        localStorage
+          .setItem('inProgressRecipes', JSON.stringify({
+            drinks: {
+              ...prevStorage.drinks,
+              [idRecipe]: listIngredients,
+            },
+            meals: {
+              ...prevStorage.meals || {},
+            },
+          }));
+      }
+    } else {
+      localStorage
+        .setItem('inProgressRecipes', JSON.stringify({
+          drinks: {
+          },
+          meals: {
+          },
+        }));
+    }
+  }, [type, idRecipe, listIngredients, progress]);
+
+  useEffect(() => {
+    initialLocal();
+  }, [initialLocal]);
 
   const startRecipe = (id, recipe) => {
     const prevStorage = JSON
@@ -18,7 +65,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients }) {
           },
           meals: {
             ...prevStorage.meals,
-            [id]: ingredients,
+            [id]: listIngredients,
           },
         }));
     } else {
@@ -26,7 +73,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients }) {
         .setItem('inProgressRecipes', JSON.stringify({
           drinks: {
             ...prevStorage.drinks,
-            [id]: ingredients,
+            [id]: listIngredients,
           },
           meals: {
             ...prevStorage.meals || {},
@@ -37,6 +84,29 @@ function BtnRecipesDetails({ idRecipe, type, ingredients }) {
     setStartMessage(false);
     setIsFinished(false);
     history.push(`/${type}/${idRecipe}/in-progress`);
+  };
+
+  const doneRecipe = (recipe, recipetype) => {
+    const prevStorage = JSON
+      .parse(localStorage.getItem('doneRecipes') || '[]');
+    const newRecipe = recipe.map((item) => ({
+      id: item.idMeal || item.idDrink,
+      nationality: item.strArea || '',
+      name: item.strMeal || item.strDrink,
+      category: item.strCategory,
+      Image: item.strMealThumb || item.strDrinkThumb,
+      tags: item.strTags || '',
+      alcoholicOrNot: item.strAlcoholic || '',
+      type: recipetype,
+      doneDate: new Date().toISOString(),
+    }));
+
+    localStorage
+      .setItem('doneRecipes', JSON.stringify([
+        ...prevStorage,
+        newRecipe[0],
+      ]));
+    history.push('/done-recipes');
   };
 
   const getLocalStorage = useCallback(() => {
@@ -61,12 +131,15 @@ function BtnRecipesDetails({ idRecipe, type, ingredients }) {
     <div>
       <button
         style={ { position: 'fixed', bottom: 0, left: 0 } }
-        data-testid="start-recipe-btn"
-        onClick={ () => startRecipe(idRecipe, type) }
+        data-testid={ `${progress[2] === 'in-progress' ? 'finish' : 'start'}-recipe-btn` }
+        onClick={ AllChecked
+          ? () => doneRecipe(recipeFull, type)
+          : () => startRecipe(idRecipe, type) }
+        disabled={ AllChecked ? !AllChecked : progress[2] }
       >
         { startMessage ? ('Start Recipe') : (
           <span>
-            { isFinished ? 'finish recipe' : 'Continue Recipe' }
+            { isFinished || progress[2] ? 'finish recipe' : 'Continue Recipe' }
           </span>
         )}
       </button>
@@ -78,6 +151,8 @@ BtnRecipesDetails.propTypes = {
   idRecipe: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+  AllChecked: PropTypes.bool.isRequired,
+  recipeFull: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default BtnRecipesDetails;
