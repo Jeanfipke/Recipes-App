@@ -7,13 +7,13 @@ function BtnDneRecipes() {
   const dispatch = useDispatch();
 
   const filterByMeal = () => {
-    const doneRecipesLocal = JSON.parse(localStorage.getItem('doneRecipes'));
+    const doneRecipesLocal = JSON.parse(localStorage.getItem('doneRecipes' || '[]'));
     const meals = doneRecipesLocal.filter((recipe) => recipe.type === 'meal');
     setRecipes(meals);
   };
 
   const filterByDrink = () => {
-    const doneRecipesLocal = JSON.parse(localStorage.getItem('doneRecipes'));
+    const doneRecipesLocal = JSON.parse(localStorage.getItem('doneRecipes' || '[]'));
     const drinks = doneRecipesLocal.filter((recipe) => recipe.type === 'drink');
     setRecipes(drinks);
   };

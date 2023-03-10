@@ -39,7 +39,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
             },
           }));
       }
-    } else {
+    } else if (AllChecked) {
       localStorage
         .setItem('inProgressRecipes', JSON.stringify({
           drinks: {
@@ -48,13 +48,14 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
           },
         }));
     }
-  }, [type, idRecipe, listIngredients, progress]);
+  }, [type, idRecipe, listIngredients, progress, AllChecked]);
 
   useEffect(() => {
     initialLocal();
   }, [initialLocal]);
 
   const startRecipe = (id, recipe) => {
+    console.log(id, recipe);
     const prevStorage = JSON
       .parse(localStorage.getItem('inProgressRecipes') || '{}');
     if (recipe === 'meals') {
@@ -125,11 +126,6 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
       setStartMessage(!isInProgress);
       setIsFinished(!isInProgress);
     }
-
-    //! pegar do localStorage doneRecipes
-    //! verificar se a receita está completa
-    //! if => startMessage === false && isFinished === true
-    //! else => startMessage === true && isFinished === false
   }, [type, idRecipe]);
 
   useEffect(() => {
@@ -148,7 +144,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
       >
         { startMessage ? ('Start Recipe') : (
           <span>
-            { isFinished || progress[2] ? 'finish recipe' : 'Continue Recipe' }
+            { isFinished || AllChecked ? 'finish recipe' : 'Continue Recipe' }
           </span>
         )}
       </button>
