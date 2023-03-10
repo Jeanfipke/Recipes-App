@@ -33,8 +33,6 @@ function FavoriteRecipes() {
   const checkIsFavorite = useCallback(() => {
     const prevStorage = JSON
       .parse(localStorage.getItem('favoriteRecipes'));
-    console.log(prevStorage);
-
     if (prevStorage === null) {
       setFilteredFoods([]);
       setInitial([]);
@@ -48,6 +46,8 @@ function FavoriteRecipes() {
   useEffect(() => {
     checkIsFavorite();
   }, [checkIsFavorite, update]);
+
+  console.log('fora', filteredFoods);
 
   return (
     <>
