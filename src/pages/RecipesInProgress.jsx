@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
+import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import Header from '../componentes/Header';
 import { detailsRecipesApi } from '../services/api';
 
