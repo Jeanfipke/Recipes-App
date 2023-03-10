@@ -32,7 +32,12 @@ function FavoriteRecipes() {
   };
   const checkIsFavorite = useCallback(() => {
     const prevStorage = JSON
-      .parse(localStorage.getItem('favoriteRecipes'));
+      .parse(localStorage.getItem('favoriteRecipes' || '[]'));
+    if (prevStorage === null) {
+      setFilteredFoods([]);
+      setInitial([]);
+      return true;
+    }
     setFilteredFoods(prevStorage);
     setInitial(prevStorage);
   }, [setInitial]);
@@ -40,6 +45,8 @@ function FavoriteRecipes() {
   useEffect(() => {
     checkIsFavorite();
   }, [checkIsFavorite, update]);
+
+  console.log('fora', filteredFoods);
 
   return (
     <>
