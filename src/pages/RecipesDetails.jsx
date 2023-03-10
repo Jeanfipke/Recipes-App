@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
+import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import { detailsRecipesApi } from '../services/api';
 import RecomendationCard from '../componentes/RecomendationCard';
 
@@ -67,22 +68,13 @@ function RecipesDetails() {
 
   return (
     <div>
-
-      <div>
-        <button
-          data-testid="share-btn"
-          onClick={ () => shareRecipe() }
-        >
-          Compartilhar
-        </button>
-        <button
-          data-testid="favorite-btn"
-          onClick={ () => favoriteRecipe() }
-        >
-          Favoritar
-        </button>
-      </div>
-
+      <BtnShareAndFavorite
+        recipe={ recipe }
+        recipeType={ recipeType }
+        id={ id }
+        favoriteId="favorite-btn"
+        shareId="share-btn"
+      />
       {recipeType === 'meals' ? (
         recipe
           .map((

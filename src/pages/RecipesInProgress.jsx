@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
-import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
-import Header from '../componentes/Header';
+
 import { detailsRecipesApi } from '../services/api';
+
+import Header from '../componentes/Header';
+import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
+import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
 
 function RecipesInProgress() {
   const [recipe, setRecipe] = useState([]);
@@ -102,6 +104,8 @@ function RecipesInProgress() {
           recipe={ recipe }
           recipeType={ recipeType }
           id={ id }
+          favoriteId="favorite-btn"
+          shareId="share-btn"
         />
       </div>
 

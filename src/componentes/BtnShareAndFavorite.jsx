@@ -2,16 +2,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
 import ShareImage from '../images/shareIcon.svg';
 import UnfavoriteImage from '../images/whiteHeartIcon.svg';
 import FavoriteImage from '../images/blackHeartIcon.svg';
+import { updateFavorite } from '../redux/Actions';
 
-function BtnShareAndFavorite({ recipe, recipeType, id }) {
-  console.log(recipeType, id);
+function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId, shareId }) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const dispatch = useDispatch();
+
   const shareRecipe = () => {
     copy(`http://localhost:3000/${recipeType}/${id}`);
-
     Swal.fire({
       position: 'top-end',
       icon: 'success',
@@ -30,6 +32,8 @@ function BtnShareAndFavorite({ recipe, recipeType, id }) {
       localStorage
         .setItem('favoriteRecipes', JSON.stringify(favoriteRemoved));
       setIsFavorite(false);
+      dispatch(updateFavorite());
+
       return null;
     }
 
@@ -76,18 +80,18 @@ function BtnShareAndFavorite({ recipe, recipeType, id }) {
 
   return (
     <div>
-      <button
-        data-testid="share-btn"
-        onClick={ shareRecipe }
-      >
-        <img src={ ShareImage } alt="Share Recipe" />
+      <button onClick={ shareRecipe }>
+        <img
+          src={ ShareImage }
+          data-testid={ shareId }
+          alt="Share Recipe"
+        />
       </button>
       <button
-        // data-testid="favorite-btn"
         onClick={ favoriteRecipe }
       >
         <img
-          data-testid="favorite-btn"
+          data-testid={ favoriteId }
           src={ isFavorite ? FavoriteImage : UnfavoriteImage }
           alt="Favorite Recipe"
         />
@@ -100,6 +104,8 @@ BtnShareAndFavorite.propTypes = {
   recipe: PropTypes.shape({}).isRequired,
   recipeType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  favoriteId: PropTypes.string.isRequired,
+  shareId: PropTypes.string.isRequired,
 };
 
 export default BtnShareAndFavorite;
