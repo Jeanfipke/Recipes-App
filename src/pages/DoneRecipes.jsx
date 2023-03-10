@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import copy from 'clipboard-copy';
+import { connect, useSelector } from 'react-redux';
 
 import BtnDneRecipes from '../componentes/BtnDneRecipes';
 import Header from '../componentes/Header';
@@ -8,8 +9,8 @@ import ShareImage from '../images/shareIcon.svg';
 
 function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
-  // const [meals, setmeals] = useState([]);
-  // const [drinks, setdrinks] = useState([]);
+  const doneRecipesRedux = useSelector((state) => state.doneRecipesRedux);
+  const { doneRecipesFilter } = doneRecipesRedux;
 
   const shareRecipe = (recipeType, id) => {
     copy(`http://localhost:3000/${recipeType}s/${id}`);
@@ -32,8 +33,15 @@ function DoneRecipes() {
   };
 
   useEffect(() => {
-    setDoneRecipes(getDoneRecipes());
-  }, []);
+    console.log(doneRecipesFilter.length);
+    if (doneRecipesFilter.length > 0) {
+      setDoneRecipes(doneRecipesFilter);
+    } else {
+      setDoneRecipes(getDoneRecipes());
+    }
+  }, [doneRecipesFilter]);
+
+  // console.log(doneRecipes);
 
   return (
     <main>
@@ -81,4 +89,4 @@ function DoneRecipes() {
   );
 }
 
-export default DoneRecipes;
+export default connect()(DoneRecipes);
