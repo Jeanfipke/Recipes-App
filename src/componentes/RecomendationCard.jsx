@@ -4,7 +4,6 @@ import { STOP_ARRAY_RECOMENDATION } from '../Helpers/genericConsts';
 import { recipeAPI } from '../services/api';
 
 function RecomendationCard({ thumb }) {
-  console.log(thumb);
   const [recomendations, setRecomendation] = useState([]);
 
   const { pathname } = useLocation();
@@ -43,7 +42,6 @@ function RecomendationCard({ thumb }) {
         <img
           className="carousel-img"
           src={ Object.entries(recomendation)[thumb][1] }
-          // width="100px"
           alt={ Object.entries(recomendation)[1][1] }
         />
       </div>

@@ -14,6 +14,7 @@ function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId, shareId }) {
 
   const shareRecipe = () => {
     copy(`http://localhost:3000/${recipeType}/${id}`);
+
     Swal.fire({
       position: 'top-end',
       icon: 'success',

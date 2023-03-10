@@ -70,8 +70,4 @@ function BtnCategories() {
   );
 }
 
-// const mapDispatchToProps = (dispatch) => ({
-//   selectedCategory: (payload) => dispatch(selectedCategory(payload)),
-// });
-
 export default connect(null)(BtnCategories);

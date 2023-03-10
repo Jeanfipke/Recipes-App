@@ -49,8 +49,6 @@ body {
 
 .d-flex {
   display: flex;
-
-  /* gap: 15px; */
 }
 
 .btnNext {
