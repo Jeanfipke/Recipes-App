@@ -33,6 +33,14 @@ function FavoriteRecipes() {
   const checkIsFavorite = useCallback(() => {
     const prevStorage = JSON
       .parse(localStorage.getItem('favoriteRecipes'));
+    console.log(prevStorage);
+
+    if (prevStorage === null) {
+      setFilteredFoods([]);
+      setInitial([]);
+      return true;
+    }
+
     setFilteredFoods(prevStorage);
     setInitial(prevStorage);
   }, [setInitial]);
