@@ -30,7 +30,6 @@ function DoneRecipes() {
     if (doneRecipesLocal) {
       return doneRecipesLocal;
     }
-    return [];
   };
 
   useEffect(() => {
@@ -45,6 +44,7 @@ function DoneRecipes() {
     <main>
       <Header />
       <BtnDneRecipes />
+      {doneRecipes.length === 0 && <h3>Você não tem nenhuma receita</h3>}
       <div>
         {doneRecipes.map((recipe, index) => (
           <div key={ index }>

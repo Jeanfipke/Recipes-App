@@ -25,7 +25,6 @@ function BtnDneRecipes() {
   useEffect(() => {
     dispatch(doneRecipes(Recipes));
   }, [dispatch, Recipes]);
-  console.log('All', Recipes);
 
   return (
     <div>
