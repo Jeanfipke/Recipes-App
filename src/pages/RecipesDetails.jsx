@@ -68,7 +68,6 @@ function RecipesDetails() {
 
   return (
     <div>
-
       <BtnShareAndFavorite
         recipe={ recipe }
         recipeType={ recipeType }
