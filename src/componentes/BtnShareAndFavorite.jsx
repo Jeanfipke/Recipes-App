@@ -2,12 +2,16 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
 import ShareImage from '../images/shareIcon.svg';
 import UnfavoriteImage from '../images/whiteHeartIcon.svg';
 import FavoriteImage from '../images/blackHeartIcon.svg';
+import { updateFavorite } from '../redux/Actions';
 
 function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId, shareId }) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const dispatch = useDispatch();
+
   const shareRecipe = () => {
     copy(`http://localhost:3000/${recipeType}/${id}`);
     Swal.fire({
@@ -28,6 +32,8 @@ function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId, shareId }) {
       localStorage
         .setItem('favoriteRecipes', JSON.stringify(favoriteRemoved));
       setIsFavorite(false);
+      dispatch(updateFavorite());
+
       return null;
     }
 

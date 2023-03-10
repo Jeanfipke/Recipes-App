@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import Header from '../componentes/Header';
@@ -7,6 +8,8 @@ function FavoriteRecipes() {
   const history = useHistory();
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [initial, setInitial] = useState([]);
+
+  const update = useSelector((state) => state.categories.update);
 
   const filterAll = () => {
     setFilteredFoods(initial);
@@ -36,7 +39,7 @@ function FavoriteRecipes() {
 
   useEffect(() => {
     checkIsFavorite();
-  }, [checkIsFavorite]);
+  }, [checkIsFavorite, update]);
 
   // TODO pesquisar como atualizar ao desfavoritar
 
