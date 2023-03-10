@@ -8,7 +8,6 @@ import { renderWithRouterAndRedux } from './helpers/renderWith';
 import doneRecipes from './mocksTests/doneRecipes';
 
 describe('Testando Tela de Receita Feita', () => {
-
   const endPoint = '/done-recipes';
 
   it('Testando se todos os elementos estão disponíveis', () => {
@@ -105,6 +104,32 @@ describe('Testando Tela de Receita Feita', () => {
     });
 
     expect(screen.getByText(/Você não tem nenhuma receita/i)).toBeInTheDocument();
+
+    jest.restoreAllMocks();
+  });
+  it('testando filtro de bebidas', async () => {
+    jest.spyOn(Storage.prototype, 'getItem')
+      .mockImplementation(() => JSON.stringify(doneRecipes));
+
+    const { history } = renderWithRouterAndRedux(<App />);
+
+    act(() => {
+      history.push(endPoint);
+    });
+
+    const filterMealBtn = screen.getByTestId('filter-by-meal-btn');
+
+    userEvent.click(filterMealBtn);
+
+    const drinksRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
+      .filter((recipe) => recipe.type === 'bebida');
+
+    localStorage.setItem('doneRecipes', JSON.stringify(drinksRecipes)); // Armazenando a nova lista na localStorage
+
+    drinksRecipes.forEach((recipe, index) => {
+      const horizontalTopText = screen.getByTestId(`${index}-horizontal-top-text`);
+      expect(horizontalTopText).toHaveTextContent(recipe.alcoholicOrNot);
+    });
 
     jest.restoreAllMocks();
   });

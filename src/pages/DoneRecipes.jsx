@@ -27,9 +27,7 @@ function DoneRecipes() {
 
   const getDoneRecipes = () => {
     const doneRecipesLocal = JSON.parse(localStorage.getItem('doneRecipes'));
-    if (doneRecipesLocal) {
-      return doneRecipesLocal;
-    }
+    return doneRecipesLocal;
   };
 
   useEffect(() => {
