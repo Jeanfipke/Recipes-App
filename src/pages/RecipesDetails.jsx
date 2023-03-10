@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
-import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import { detailsRecipesApi } from '../services/api';
 import RecomendationCard from '../componentes/RecomendationCard';
+import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 
 import './RecipesDetails.css';
 
@@ -75,7 +75,6 @@ function RecipesDetails() {
         favoriteId="favorite-btn"
         shareId="share-btn"
       />
-
       {recipeType === 'meals' ? (
         recipe
           .map((

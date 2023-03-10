@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
+import { detailsRecipesApi } from '../services/api';
+
+import Header from '../componentes/Header';
 import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
-import Header from '../componentes/Header';
-import { detailsRecipesApi } from '../services/api';
 
 function RecipesInProgress() {
   const [recipe, setRecipe] = useState([]);

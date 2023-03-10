@@ -41,8 +41,6 @@ function FavoriteRecipes() {
     checkIsFavorite();
   }, [checkIsFavorite, update]);
 
-  // TODO pesquisar como atualizar ao desfavoritar
-
   return (
     <>
       <Header />
