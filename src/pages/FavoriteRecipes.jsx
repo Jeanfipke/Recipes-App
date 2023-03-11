@@ -95,11 +95,11 @@ function FavoriteRecipes() {
                     {category}
                   </h2>
                   <button onClick={ () => redirectRecipe(type, id) }>
-                    <h2
+                    <h3
                       data-testid={ `${index}-horizontal-name` }
                     >
                       {name}
-                    </h2>
+                    </h3>
                   </button>
                   <input
                     type="image"
