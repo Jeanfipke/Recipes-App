@@ -1,5 +1,7 @@
 import { screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
+
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import App from '../App';
 import { meals } from './mocksTests/mealsRecipesMock';
@@ -45,9 +47,11 @@ describe('Testes para a página RecipesDetails', () => {
   });
 
   it('Testa se a página renderiza corretamente a rota /drinks/15997', async () => {
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockReturnValueOnce(drinks),
+    jest.resetAllMocks();
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValue(drinks),
+    }).mockResolvedValue({
+      json: jest.fn().mockResolvedValue(meals),
     });
 
     const { history } = renderWithRouterAndRedux(<App />);
@@ -73,7 +77,18 @@ describe('Testes para a página RecipesDetails', () => {
     expect(prevButton[0]).toBeInTheDocument();
     //! Testar click do botão
 
+    const carouselItem = await screen.findAllByTestId(/-recommendation-title/i);
+    expect(carouselItem).toHaveLength(72);
+
+    const carousel = await screen.findAllByTestId(/carsl-t/i);
+    expect(carousel[0].scrollLeft).toEqual(0);
+
+    userEvent.click(prevButton[0]);
+
+    expect(carousel[0].scrollLeft).not.toEqual(1);
+
     // userEvent.click(nextButton[0]);
+
     // userEvent.click(prevButton);
   });
 
