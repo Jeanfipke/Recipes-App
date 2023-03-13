@@ -7,7 +7,7 @@ import Header from '../componentes/Header';
 import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
 
-function RecipesInProgress() {
+function RecipeInProgress() {
   const [recipe, setRecipe] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
@@ -72,7 +72,6 @@ function RecipesInProgress() {
       const ingredientsList = storage[recipeType][id];
       const checkedI = ingredientsList.reduce((acc, ingredient) => {
         const [key, value] = Object.entries(ingredient)[0];
-        console.log(key, value);
         return { ...acc, [key]: value };
       }, {});
       setCheckedItems(checkedI);
@@ -231,4 +230,4 @@ function RecipesInProgress() {
   );
 }
 
-export default RecipesInProgress;
+export default RecipeInProgress;

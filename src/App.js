@@ -7,14 +7,14 @@ import Profile from './pages/Profile';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Recipes from './pages/Recipes';
 import RecipesDetails from './pages/RecipesDetails';
-import RecipesInProgress from './pages/RecipesInProgress';
+import RecipeInProgress from './pages/RecipeInProgress';
 import './App.css';
 
 function App() {
   return (
     <Switch>
-      <Route path="/meals/:id/in-progress" component={ RecipesInProgress } />
-      <Route path="/drinks/:id/in-progress" component={ RecipesInProgress } />
+      <Route path="/meals/:id/in-progress" component={ RecipeInProgress } />
+      <Route path="/drinks/:id/in-progress" component={ RecipeInProgress } />
       <Route path="/meals/:id" component={ RecipesDetails } />
       <Route path="/drinks/:id" component={ RecipesDetails } />
       <Route path="/favorite-recipes" component={ FavoriteRecipes } />

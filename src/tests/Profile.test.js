@@ -4,6 +4,7 @@ import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
+import { meals } from './mocksTests/mealsRecipesMock';
 
 const LOGIN_INPUT = 'email-input';
 const PASSWORD_INPUT = 'password-input';
@@ -43,6 +44,11 @@ describe('Testa a página de perfil', () => {
     expect(links).toHaveLength(6);
   });
   test('Testa funcionalidades dos botões', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(meals),
+    });
+
     const { history } = renderWithRouterAndRedux(<App />);
     act(() => {
       history.push('/profile');
@@ -69,6 +75,8 @@ describe('Testa a página de perfil', () => {
       userEvent.click(lougoutBtn);
     });
     expect(history.location.pathname).toBe('/');
+
+    jest.restoreAllMocks();
   });
   it('teste se acessa o local storage e renderiza corretamente o email', () => {
     const user = { email: VALID_EMAIL };

@@ -55,7 +55,6 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
   }, [initialLocal]);
 
   const startRecipe = (id, recipe) => {
-    console.log(id, recipe);
     const prevStorage = JSON
       .parse(localStorage.getItem('inProgressRecipes') || '{}');
     if (recipe === 'meals') {

@@ -42,9 +42,11 @@ function DoneRecipes() {
     <main>
       <Header />
       <BtnDneRecipes />
-      {doneRecipes.length === 0 && <h3>Você não tem nenhuma receita</h3>}
+      { doneRecipes === null || doneRecipes.length === 0
+        ? (<h3>Você não tem nenhuma receita</h3>)
+        : (<h3>Você não tem nenhuma receita</h3>) }
       <div>
-        {doneRecipes.map((recipe, index) => (
+        {doneRecipes && doneRecipes.map((recipe, index) => (
           <div key={ index }>
             <Link to={ `/${recipe.type}s/${recipe.id}` }>
               <img
