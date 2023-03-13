@@ -11,6 +11,7 @@ function Card({ param, idx }) {
         src={ param.strMealThumb ? param.strMealThumb : param.strDrinkThumb }
         alt=""
         data-testid={ `${idx}-card-img` }
+        style={ { width: '100px' } }
       />
 
     </div>

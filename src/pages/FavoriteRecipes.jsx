@@ -33,6 +33,12 @@ function FavoriteRecipes() {
   const checkIsFavorite = useCallback(() => {
     const prevStorage = JSON
       .parse(localStorage.getItem('favoriteRecipes'));
+    if (prevStorage === null) {
+      setFilteredFoods([]);
+      setInitial([]);
+      return true;
+    }
+
     setFilteredFoods(prevStorage);
     setInitial(prevStorage);
   }, [setInitial]);
@@ -40,6 +46,8 @@ function FavoriteRecipes() {
   useEffect(() => {
     checkIsFavorite();
   }, [checkIsFavorite, update]);
+
+  console.log('fora', filteredFoods);
 
   return (
     <>
@@ -87,11 +95,11 @@ function FavoriteRecipes() {
                     {category}
                   </h2>
                   <button onClick={ () => redirectRecipe(type, id) }>
-                    <h2
+                    <h3
                       data-testid={ `${index}-horizontal-name` }
                     >
                       {name}
-                    </h2>
+                    </h3>
                   </button>
                   <input
                     type="image"

@@ -59,7 +59,7 @@ describe('Testes para a página Recipes', () => {
     expect(buttonList[7].innerHTML).toBe('All');
   });
 
-  it.only('Testa buttons de categoria', async () => {
+  it('Testa buttons de categoria', async () => {
     // jest.resetAllMocks();
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
@@ -87,5 +87,19 @@ describe('Testes para a página Recipes', () => {
       });
       userEvent.click(AllButton);
     });
+  });
+  it('testa se redireciona para a pagina de detalhes ', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(meals),
+    });
+
+    const { history } = renderWithRouterAndRedux(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+
+    const getElement = await screen.findByTestId('0-card-img');
+    userEvent.click(getElement);
   });
 });

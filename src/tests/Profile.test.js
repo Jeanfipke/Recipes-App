@@ -27,6 +27,7 @@ describe('Testa a página de perfil', () => {
     act(() => {
       userEvent.click(button);
     });
+
     expect(history.location.pathname).toBe('/meals');
 
     act(() => {
@@ -39,7 +40,7 @@ describe('Testa a página de perfil', () => {
     await screen.findByRole('button', { name: /favorite recipes/i });
     await screen.findByRole('button', { name: /logout/i });
     expect(links).toHaveLength(6);
-    expect(links).toHaveLength(3);
+    expect(links).toHaveLength(6);
   });
   test('Testa funcionalidades dos botões', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -68,5 +69,40 @@ describe('Testa a página de perfil', () => {
       userEvent.click(lougoutBtn);
     });
     expect(history.location.pathname).toBe('/');
+  });
+  it('teste se acessa o local storage e renderiza corretamente o email', () => {
+    const user = { email: VALID_EMAIL };
+    global.localStorage.setItem('user', JSON.stringify(user));
+
+    const parseSpy = jest.spyOn(JSON, 'parse');
+    const { history } = renderWithRouterAndRedux(<App />);
+
+    act(() => {
+      history.push('/profile');
+    });
+
+    const email = screen.getByTestId('profile-email');
+    expect(email).toBeInTheDocument();
+    expect(email.innerHTML).toBe(VALID_EMAIL);
+    expect(parseSpy).not.toHaveBeenCalledWith('{}');
+
+    global.localStorage.removeItem('user');
+    parseSpy.mockRestore();
+  });
+  it('teste se chama JSON.parse com "{}" quando o item não está presente no local storage', () => {
+    const getItemMock = jest.spyOn(Storage.prototype, 'getItem').mockReturnValueOnce(null);
+    const parseSpy = jest.spyOn(JSON, 'parse');
+
+    const { history } = renderWithRouterAndRedux(<App />);
+
+    act(() => {
+      history.push('/profile');
+    });
+
+    expect(getItemMock).toHaveBeenCalledWith('user');
+    expect(parseSpy).toHaveBeenCalledWith(null);
+
+    getItemMock.mockRestore();
+    parseSpy.mockRestore();
   });
 });
