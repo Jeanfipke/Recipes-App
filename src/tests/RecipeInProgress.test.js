@@ -5,6 +5,8 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 
+const drinkUrl = '/drinks/15997/in-progress';
+
 describe('testa componente RecipesInProgress', () => {
   test('testa se tudo está na tela', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -24,8 +26,6 @@ describe('testa componente RecipesInProgress', () => {
       const main = screen.getByRole('main');
       expect(title && pic && category && main).toBeInTheDocument();
     });
-
-    const drinkUrl = '/drinks/15997/in-progress';
 
     act(() => {
       history.push(drinkUrl);
