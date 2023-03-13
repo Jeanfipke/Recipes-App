@@ -94,7 +94,7 @@ describe('Testando Tela de Receita Feita', () => {
     });
     jest.restoreAllMocks();
   });
-  it('Testando quando não há receitas feitas', () => {
+  it('Testando quando não há receitas feitas', async () => {
     jest.spyOn(Storage.prototype, 'getItem')
       .mockImplementation(() => JSON.stringify([]));
 
@@ -103,7 +103,7 @@ describe('Testando Tela de Receita Feita', () => {
       history.push(endPoint);
     });
 
-    expect(screen.getByText(/Você não tem nenhuma receita/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Você não tem nenhuma receita/i)).toBeInTheDocument();
 
     jest.restoreAllMocks();
   });
@@ -132,5 +132,16 @@ describe('Testando Tela de Receita Feita', () => {
     });
 
     jest.restoreAllMocks();
+  });
+  it('testando 404 ', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+
+    act(() => {
+      history.push('/asdsad');
+    });
+
+    const notFound = screen.getByText('NotFound');
+    // const notFound = screen.getByRole('heading', { level: 2 });
+    expect(notFound).toBeInTheDocument();
   });
 });
