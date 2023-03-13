@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { STOP_ARRAY_RECIPES } from '../Helpers/genericConsts';
+import { filtredRecipesAction } from '../redux/Actions';
 
 function SearchBar() {
   const [filters, setFilters] = useState('');
@@ -8,6 +11,8 @@ function SearchBar() {
   const FIRST_LETTER = 'First letter';
   const INGREDIENT = 'Ingredient';
   const NAME = 'Name';
+  const typeRecipe = history.location.pathname;
+  const dispatch = useDispatch();
 
   const handleChangeRadios = ({ target: { value } }) => {
     if (value === FIRST_LETTER && search.length > 1) {
@@ -60,13 +65,19 @@ function SearchBar() {
   };
 
   const handleClick = async () => {
-    if (history.location.pathname === '/meals') {
+    if (typeRecipe === '/meals') {
       try {
         const url = mealsURL();
         const response = await fetch(url);
-        const datas = await response.json();
-        if (datas.meals.length === 1) {
-          history.push(`/meals/${datas.meals[0].idMeal}`);
+        const data = await response.json();
+        if (data.meals.length === 1) {
+          history.push(`/meals/${data.meals[0].idMeal}`);
+        } else if (data.meals.length > STOP_ARRAY_RECIPES) {
+          const resultsRecipe = data.meals.slice(0, STOP_ARRAY_RECIPES);
+          dispatch(filtredRecipesAction(resultsRecipe));
+        } else {
+          const resultsRecipe = data.meals;
+          dispatch(filtredRecipesAction(resultsRecipe));
         }
       } catch (error) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
@@ -76,9 +87,15 @@ function SearchBar() {
       try {
         const url = drinksURL();
         const response = await fetch(url);
-        const datas = await response.json();
-        if (datas.drinks.length === 1) {
-          history.push(`/drinks/${datas.drinks[0].idDrink}`);
+        const data = await response.json();
+        if (data.drinks.length === 1) {
+          history.push(`/drinks/${data.drinks[0].idDrinks}`);
+        } else if (data.drinks.length > STOP_ARRAY_RECIPES) {
+          const resultsRecipe = data.drinks.slice(0, STOP_ARRAY_RECIPES);
+          dispatch(filtredRecipesAction(resultsRecipe));
+        } else {
+          const resultsRecipe = data.drinks;
+          dispatch(filtredRecipesAction(resultsRecipe));
         }
       } catch (error) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
