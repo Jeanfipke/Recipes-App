@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
-import RecomendationCard from '../componentes/RecomendationCard';
-import { detailsRecipesApi } from '../services/api';
-
 import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
+import { detailsRecipesApi } from '../services/api';
+import RecomendationCard from '../componentes/RecomendationCard';
 import './styles/RecipesDetails.css';
 
 function RecipesDetails() {
   const [recipe, setRecipe] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+  const [AllChecked, setAllChecked] = useState(false);
 
   const carousel = useRef(null);
 
@@ -42,7 +42,6 @@ function RecipesDetails() {
   }, [recipeType, id]);
 
   const handlePrev = () => {
-    // const marginAndBorder = 15;
     const element = carousel.current;
     const itemWidth = element.children[0].offsetWidth; // largura do primeiro item
     const currentScroll = element.scrollLeft;
@@ -59,19 +58,22 @@ function RecipesDetails() {
     const maxScroll = element.scrollWidth - element.offsetWidth;
     const nextScroll = Math.min(currentScroll + itemWidth, maxScroll);
     element.scrollLeft = nextScroll === maxScroll ? 0 : nextScroll;
-
-    // setCarousel((prev) => (prev + 2 >= recomendations.length ? 0 : prev + 1));
   };
 
   useEffect(() => {
     api();
+    setAllChecked(false);
   }, [api]);
 
   return (
     <div>
-
-      <BtnShareAndFavorite recipe={ recipe } />
-
+      <BtnShareAndFavorite
+        recipe={ recipe }
+        recipeType={ recipeType }
+        id={ id }
+        favoriteId="favorite-btn"
+        shareId="share-btn"
+      />
       {recipeType === 'meals' ? (
         recipe
           .map((
@@ -108,9 +110,14 @@ function RecipesDetails() {
                 allowFullScreen
                 title="Embedded youtube"
               />
-              <div className="d-flex carousel" ref={ carousel }>
+              <section
+                className="d-flex carousel"
+                data-testid="carsl-t"
+                ref={ carousel }
+                name="carousel"
+              >
                 <RecomendationCard thumb={ 16 } />
-              </div>
+              </section>
               <div className="d-flex btnNext">
                 <button onClick={ handlePrev }>Prev</button>
                 <button onClick={ handleNext }>Next</button>
@@ -119,6 +126,8 @@ function RecipesDetails() {
                 idRecipe={ idMeal }
                 type="meals"
                 ingredients={ ingredients }
+                AllChecked={ AllChecked }
+                recipeFull={ recipe }
               />
             </main>
           ))
@@ -158,17 +167,23 @@ function RecipesDetails() {
               </ul>
               <p data-testid="instructions">{strInstructions}</p>
               <br />
-              <div className="d-flex carousel" ref={ carousel }>
+              <div
+                className="d-flex carousel"
+                data-testid="carsl-t"
+                ref={ carousel }
+              >
                 <RecomendationCard thumb={ 6 } />
               </div>
-              <div className="d-flex">
-                <button className="" onClick={ handlePrev }>Prev</button>
+              <div className="d-flex btnNext">
+                <button onClick={ handlePrev }>Prev</button>
                 <button onClick={ handleNext }>Next</button>
               </div>
               <BtnRecipesDetails
                 idRecipe={ idDrink }
                 type="drinks"
                 ingredients={ ingredients }
+                AllChecked={ AllChecked }
+                recipeFull={ recipe }
               />
             </main>
           ))

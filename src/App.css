@@ -62,6 +62,10 @@
   display: flex;
 }
 
+.line-through {
+  text-decoration: line-through solid black;
+}
+
 @keyframes shake {
 
   0% {

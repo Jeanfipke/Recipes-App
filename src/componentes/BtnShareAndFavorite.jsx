@@ -1,23 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import copy from 'clipboard-copy';
 import Swal from 'sweetalert2';
-
+import { useDispatch } from 'react-redux';
 import ShareImage from '../images/shareIcon.svg';
 import UnfavoriteImage from '../images/whiteHeartIcon.svg';
 import FavoriteImage from '../images/blackHeartIcon.svg';
+import { updateFavorite } from '../redux/Actions';
 
-function BtnShareAndFavorite({ recipe }) {
-  const { pathname } = useLocation();
+function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId, shareId }) {
   const [isFavorite, setIsFavorite] = useState(false);
-
-  const [recipeType, id] = pathname.split('/').splice(1);
+  const dispatch = useDispatch();
 
   const shareRecipe = () => {
-    copy(`http://localhost:3000${pathname}`);
-
+    copy(`http://localhost:3000/${recipeType}/${id}`);
     Swal.fire({
       position: 'top-end',
       icon: 'success',
@@ -36,6 +32,8 @@ function BtnShareAndFavorite({ recipe }) {
       localStorage
         .setItem('favoriteRecipes', JSON.stringify(favoriteRemoved));
       setIsFavorite(false);
+      dispatch(updateFavorite());
+
       return null;
     }
 
@@ -82,18 +80,18 @@ function BtnShareAndFavorite({ recipe }) {
 
   return (
     <div>
-      <button
-        data-testid="share-btn"
-        onClick={ shareRecipe }
-      >
-        <img src={ ShareImage } alt="Share Recipe" />
+      <button onClick={ shareRecipe }>
+        <img
+          src={ ShareImage }
+          data-testid={ shareId }
+          alt="Share Recipe"
+        />
       </button>
       <button
-        // data-testid="favorite-btn"
         onClick={ favoriteRecipe }
       >
         <img
-          data-testid="favorite-btn"
+          data-testid={ favoriteId }
           src={ isFavorite ? FavoriteImage : UnfavoriteImage }
           alt="Favorite Recipe"
         />
@@ -103,9 +101,11 @@ function BtnShareAndFavorite({ recipe }) {
 }
 
 BtnShareAndFavorite.propTypes = {
-  recipe: PropTypes.shape({
-
-  }).isRequired,
+  recipe: PropTypes.arrayOf(Object).isRequired,
+  recipeType: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  favoriteId: PropTypes.string.isRequired,
+  shareId: PropTypes.string.isRequired,
 };
 
 export default BtnShareAndFavorite;

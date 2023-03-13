@@ -22,6 +22,8 @@ body {
   margin: auto;
   overflow-x: auto;
   scroll-behavior: smooth;
+
+  /* scroll-snap-type: x mandatory; */
   width: 244px;
 }
 
@@ -32,6 +34,8 @@ body {
 .carousel-item {
   border: 1px solid red;
   margin-left: 15px;
+
+  /* scroll-snap-align: start; */
   width: 250px;
 }
 
@@ -49,8 +53,6 @@ body {
 
 .d-flex {
   display: flex;
-
-  /* gap: 15px; */
 }
 
 .btnNext {

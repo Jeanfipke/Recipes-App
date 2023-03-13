@@ -81,10 +81,25 @@ describe('Testes para a página Recipes', () => {
 
       expect(AllButton).toBeInTheDocument();
       expect(firstButton).toBeInTheDocument();
-      userEvent.click(firstButton);
-
       expect(firstButton.innerHTML).toBe('Vegetarian');
+      act(() => {
+        userEvent.click(firstButton);
+      });
       userEvent.click(AllButton);
     });
+  });
+  it('testa se redireciona para a pagina de detalhes ', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(meals),
+    });
+
+    const { history } = renderWithRouterAndRedux(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+
+    const getElement = await screen.findByTestId('0-card-img');
+    userEvent.click(getElement);
   });
 });

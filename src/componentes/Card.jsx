@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Card({ param, idx }) {
-  // console.log({ param, idx });
   return (
     <div data-testid={ `${idx}-recipe-card` }>
       <h2 data-testid={ `${idx}-card-name` }>
@@ -12,6 +11,7 @@ function Card({ param, idx }) {
         src={ param.strMealThumb ? param.strMealThumb : param.strDrinkThumb }
         alt=""
         data-testid={ `${idx}-card-img` }
+        style={ { width: '100px' } }
       />
 
     </div>
