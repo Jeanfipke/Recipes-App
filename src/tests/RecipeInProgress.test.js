@@ -62,8 +62,8 @@ describe('testa componente RecipeInProgress', () => {
 
     const mainTitle = await screen.findByRole('heading', { name: /corba/i });
     const mainImg = await screen.findByRole('img', { name: /corba/i });
-    const btnFavorite = screen.getByRole('button', { name: /compartilhar/i });
-    const btnShare = screen.getByRole('button', { name: /favoritar/i });
+    const btnShare = screen.getByAltText(/share recipe/i);
+    const btnFavorite = screen.getByAltText(/favorite recipe/i);
     const igredientList = await screen.findAllByRole('list');
     const igredientItem = await screen.findAllByRole('listitem');
     const firstItem = igredientItem[0];
