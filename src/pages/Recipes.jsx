@@ -1,17 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import Header from '../componentes/Header';
-import Card from '../componentes/Card';
 import BtnCategories from '../componentes/BtnCategories';
+import Card from '../componentes/Card';
 import Footer from '../componentes/Footer';
+import Header from '../componentes/Header';
 
-import { selectedCategory } from '../redux/Actions';
 import { ApiCheck } from '../Helpers/functionsExt';
+import { filtredRecipesAction, selectedCategory } from '../redux/Actions';
 
 function Recipes() {
   const { pathname } = useLocation();
   const category = useSelector((state) => state.categories);
+  const filtredRecipe = useSelector((state) => state.filtredRecipes);
 
   const [recipe, setRecipe] = useState([]);
 
@@ -20,13 +21,17 @@ function Recipes() {
   const typeRicepe = pathname.split('/')[1];
 
   const api = useCallback(async () => {
-    const endPoint = category.category;
-    const resp = await ApiCheck(pathname, endPoint, typeRicepe);
-    return setRecipe(resp);
-  }, [category.category, pathname, typeRicepe]);
+    if (filtredRecipe.recipes.length === 0) {
+      const endPoint = category.category;
+      const resp = await ApiCheck(pathname, endPoint, typeRicepe);
+      return setRecipe(resp);
+    }
+    setRecipe(filtredRecipe.recipes);
+  }, [category.category, pathname, typeRicepe, filtredRecipe]);
 
   const handleResetFilters = () => {
     dispatch(selectedCategory(''));
+    dispatch(filtredRecipesAction([]));
   };
 
   useEffect(() => {

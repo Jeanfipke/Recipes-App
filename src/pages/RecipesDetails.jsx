@@ -4,8 +4,7 @@ import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
 import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import { detailsRecipesApi } from '../services/api';
 import RecomendationCard from '../componentes/RecomendationCard';
-
-import './RecipesDetails.css';
+import './styles/RecipesDetails.css';
 
 function RecipesDetails() {
   const [recipe, setRecipe] = useState([]);
