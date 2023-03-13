@@ -25,10 +25,12 @@ describe('testa componente RecipesInProgress', () => {
       expect(title && pic && category && main).toBeInTheDocument();
     });
 
+    const drinkUrl = '/drinks/15997/in-progress';
+
     act(() => {
-      history.push('/drinks/15997/in-progress');
+      history.push(drinkUrl);
     });
-    expect(history.location.pathname).toBe('/drinks/15997/in-progress');
+    expect(history.location.pathname).toBe(drinkUrl);
 
     await waitFor(() => {
       const title = screen.getByTestId('recipe-title');
@@ -45,7 +47,7 @@ describe('testa componente RecipesInProgress', () => {
       history.push('/drinks/15997');
     });
     act(() => {
-      history.push('/drinks/15997/in-progress');
+      history.push(drinkUrl);
     });
   });
 });
