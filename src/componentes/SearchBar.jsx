@@ -4,15 +4,10 @@ import { useHistory } from 'react-router-dom';
 function SearchBar() {
   const [filters, setFilters] = useState('');
   const [search, setSearch] = useState('');
-  const [result, setResult] = useState('');
   const history = useHistory();
   const FIRST_LETTER = 'First letter';
   const INGREDIENT = 'Ingredient';
   const NAME = 'Name';
-
-  // useEffect(() => {
-
-  // }, [search]);
 
   const handleChangeRadios = ({ target: { value } }) => {
     if (value === FIRST_LETTER && search.length > 1) {
@@ -65,21 +60,31 @@ function SearchBar() {
   };
 
   const handleClick = async () => {
-    let url = '';
-    let response = '';
-    let data = '';
     if (history.location.pathname === '/meals') {
-      url = mealsURL();
-      response = await fetch(url);
-      data = await response.json();
-      setResult(data);
+      try {
+        const url = mealsURL();
+        const response = await fetch(url);
+        const datas = await response.json();
+        if (datas.meals.length === 1) {
+          history.push(`/meals/${datas.meals[0].idMeal}`);
+        }
+      } catch (error) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+        console.log(error);
+      }
     } else {
-      url = drinksURL();
-      response = await fetch(url);
-      data = await response.json();
-      setResult(data);
+      try {
+        const url = drinksURL();
+        const response = await fetch(url);
+        const datas = await response.json();
+        if (datas.drinks.length === 1) {
+          history.push(`/drinks/${datas.drinks[0].idDrink}`);
+        }
+      } catch (error) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+        console.log(error);
+      }
     }
-    console.log(result);
   };
 
   return (
