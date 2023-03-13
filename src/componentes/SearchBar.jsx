@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function SearchBar() {
   const [filters, setFilters] = useState('');
   const [search, setSearch] = useState('');
+  const [result, setResult] = useState('');
+  const history = useHistory();
   const FIRST_LETTER = 'First letter';
   const INGREDIENT = 'Ingredient';
   const NAME = 'Name';
 
-  // const ingredientAPI = https://www.themealdb.com/api/json/v1/1/filter.php?i={ingrediente}
-  // const nameAPI = https://www.themealdb.com/api/json/v1/1/search.php?s={nome}
-  // const firstLetterAPI = https://www.themealdb.com/api/json/v1/1/search.php?f={primeira-letra}
+  // useEffect(() => {
+
+  // }, [search]);
 
   const handleChangeRadios = ({ target: { value } }) => {
     if (value === FIRST_LETTER && search.length > 1) {
@@ -25,7 +28,7 @@ function SearchBar() {
     setSearch(value);
   };
 
-  const switchURL = () => {
+  const mealsURL = () => {
     switch (filters) {
     case INGREDIENT:
 
@@ -43,11 +46,40 @@ function SearchBar() {
     }
   };
 
+  const drinksURL = () => {
+    switch (filters) {
+    case INGREDIENT:
+
+      return `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${search}`;
+
+    case NAME:
+
+      return `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${search}`;
+
+    case FIRST_LETTER:
+
+      return `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${search}`;
+    default:
+      break;
+    }
+  };
+
   const handleClick = async () => {
-    const url = await switchURL();
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data);
+    let url = '';
+    let response = '';
+    let data = '';
+    if (history.location.pathname === '/meals') {
+      url = mealsURL();
+      response = await fetch(url);
+      data = await response.json();
+      setResult(data);
+    } else {
+      url = drinksURL();
+      response = await fetch(url);
+      data = await response.json();
+      setResult(data);
+    }
+    console.log(result);
   };
 
   return (

@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
-import { detailsRecipesApi } from '../services/api';
 import RecomendationCard from '../componentes/RecomendationCard';
+import { detailsRecipesApi } from '../services/api';
 
-import './RecipesDetails.css';
 import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
+import './styles/RecipesDetails.css';
 
 function RecipesDetails() {
   const [recipe, setRecipe] = useState([]);
