@@ -70,6 +70,7 @@ function RecipesInProgress() {
       const ingredientsList = storage[recipeType][id];
       const checkedI = ingredientsList.reduce((acc, ingredient) => {
         const [key, value] = Object.entries(ingredient)[0];
+        console.log(key, value);
         return { ...acc, [key]: value };
       }, {});
       setCheckedItems(checkedI);
