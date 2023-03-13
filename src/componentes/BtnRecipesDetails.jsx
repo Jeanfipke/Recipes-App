@@ -161,7 +161,7 @@ BtnRecipesDetails.propTypes = {
   type: PropTypes.string.isRequired,
   ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
   AllChecked: PropTypes.bool.isRequired,
-  recipeFull: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  recipeFull: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default BtnRecipesDetails;

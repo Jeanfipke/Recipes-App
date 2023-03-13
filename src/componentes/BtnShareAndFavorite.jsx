@@ -101,7 +101,7 @@ function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId, shareId }) {
 }
 
 BtnShareAndFavorite.propTypes = {
-  recipe: PropTypes.shape({}).isRequired,
+  recipe: PropTypes.arrayOf(Object).isRequired,
   recipeType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   favoriteId: PropTypes.string.isRequired,
