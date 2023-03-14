@@ -39,48 +39,64 @@ function DoneRecipes() {
   }, [doneRecipesFilter]);
 
   return (
-    <main>
+    <main className="flex flex-col items-center">
       <Header />
       <BtnDneRecipes />
-      { doneRecipes === null || doneRecipes.length === 0
-        ? (<h3>Você não tem nenhuma receita</h3>)
-        : (<h3>Você não tem nenhuma receita</h3>) }
-      <div>
+      <div
+        className="flex w-11/12 flex-col
+        items-center justify-center"
+      >
         {doneRecipes && doneRecipes.map((recipe, index) => (
-          <div key={ index }>
+          <div
+            className="flex w-full overflow-hidden rounded-xl
+            place-self-center justify-between border-2 my-2 h-40"
+            key={ index }
+          >
             <Link to={ `/${recipe.type}s/${recipe.id}` }>
               <img
+                className="w-64"
                 data-testid={ `${index}-horizontal-image` }
                 src={ recipe.image }
                 alt={ recipe.name }
-                style={ { width: '100px' } }
               />
             </Link>
-            <p data-testid={ `${index}-horizontal-top-text` }>
-              {recipe.type === 'meal'
-                ? `${recipe.nationality} - ${recipe.category}` : recipe.alcoholicOrNot}
-            </p>
-            <Link to={ `/${recipe.type}s/${recipe.id}` }>
-              <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
-            </Link>
-            <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
-            <label htmlFor="share">
-              <button
-                type="button"
-                data-testid={ `${index}-horizontal-share-btn` }
-                src={ ShareImage }
-                alt="share"
-                onClick={ () => shareRecipe(recipe.type, recipe.id) }
-              >
-                <img src={ ShareImage } alt="share" />
-              </button>
-            </label>
-
-            {recipe.tags.map((tag, indexTag) => (
-              <p key={ indexTag } data-testid={ `${index}-${tag}-horizontal-tag` }>
-                {tag}
+            <div className="flex flex-col w-full justify-evenly items-center">
+              <div className="flex ">
+                <Link to={ `/${recipe.type}s/${recipe.id}` }>
+                  <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+                </Link>
+                <label htmlFor="share">
+                  <button
+                    type="button"
+                    data-testid={ `${index}-horizontal-share-btn` }
+                    src={ ShareImage }
+                    alt="share"
+                    onClick={ () => shareRecipe(recipe.type, recipe.id) }
+                  >
+                    <img src={ ShareImage } alt="share" />
+                  </button>
+                </label>
+              </div>
+              <p data-testid={ `${index}-horizontal-top-text` }>
+                {recipe.type === 'meal'
+                  ? `${recipe.nationality} - ${recipe.category}`
+                  : recipe.alcoholicOrNot}
               </p>
-            )) }
+              <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
+              <div className="flex">
+                {recipe.tags.map((tag, indexTag) => (
+                  <p
+                    className="bg-gray-300 mx-1 w-16
+                    text-center text-gray-700 rounded-3xl"
+                    key={ indexTag }
+                    data-testid={ `${index}-${tag}-horizontal-tag` }
+                  >
+                    {tag}
+                  </p>
+                )) }
+              </div>
+            </div>
+
           </div>
         ))}
 

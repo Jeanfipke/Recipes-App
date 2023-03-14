@@ -97,6 +97,10 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
           : [item.strTags];
       }
 
+      const doneDate = new Date();
+      const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+      const doneDateFormatted = doneDate.toLocaleDateString('pt-BR', options); // "14/03/2023"
+
       return ({
         id: item.idMeal || item.idDrink,
         nationality: item.strArea || '',
@@ -106,7 +110,7 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
         tags: tagsArray,
         alcoholicOrNot: item.strAlcoholic || '',
         type: typeSingular,
-        doneDate: new Date().toISOString(),
+        doneDate: doneDateFormatted,
       });
     });
 
@@ -132,10 +136,9 @@ function BtnRecipesDetails({ idRecipe, type, ingredients, AllChecked, recipeFull
   }, [getLocalStorage]);
 
   return (
-    <div className="w-full active:bg-black flex items-center justify-center">
+    <div>
       <button
-        className="fixed bottom-2 rounded-lg h-10 w-11/12 bg-yellow-400 text-white
-        font-semibold text-xl"
+        style={ { position: 'fixed', bottom: 0, left: 0 } }
         data-testid={ `${progress[2] === 'in-progress' ? 'finish' : 'start'}-recipe-btn` }
         onClick={ AllChecked
           ? () => doneRecipe(recipeFull, type)

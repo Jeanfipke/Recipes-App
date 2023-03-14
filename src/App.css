@@ -63,6 +63,7 @@
 }
 
 .line-through {
+  display: flex;
   text-decoration: line-through solid black;
 }
 

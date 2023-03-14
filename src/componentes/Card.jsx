@@ -6,7 +6,7 @@ function Card({ param, idx }) {
     <div
       className="w-64 h-72 flex flex-col-reverse my-2
       border-violet-400 border-2 rounded-lg
-      justify-between items-center"
+      justify-between items-center overflow-hidden"
       data-testid={ `${idx}-recipe-card` }
     >
       <div

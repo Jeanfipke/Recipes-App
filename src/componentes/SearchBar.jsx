@@ -89,7 +89,7 @@ function SearchBar() {
         const response = await fetch(url);
         const data = await response.json();
         if (data.drinks.length === 1) {
-          history.push(`/drinks/${data.drinks[0].idDrinks}`);
+          history.push(`/drinks/${data.drinks[0].idDrink}`);
         } else if (data.drinks.length > STOP_ARRAY_RECIPES) {
           const resultsRecipe = data.drinks.slice(0, STOP_ARRAY_RECIPES);
           dispatch(filtredRecipesAction(resultsRecipe));
@@ -105,9 +105,13 @@ function SearchBar() {
   };
 
   return (
-    <form>
+    <form
+      className="bg-violet-900 h-36 w-11/12 rounded-3xl
+      flex flex-col justify-between mb-2"
+    >
       <label htmlFor="search">
         <input
+          className="w-full py-2 px-6 border rounded-xl"
           id="search"
           data-testid="search-input"
           type="text"
@@ -116,7 +120,10 @@ function SearchBar() {
           onChange={ (e) => handleChangeSearch(e) }
         />
       </label>
-      <section>
+      <section
+        className="w-4/5 flex text-white place-self-center
+        justify-between items-center"
+      >
         <label>
           <input
             data-testid="ingredient-search-radio"
@@ -149,6 +156,8 @@ function SearchBar() {
         </label>
       </section>
       <button
+        className="w-4/5 place-self-center text-white font-bold
+        text-xl h-10 mb-3 bg-yellow-400 rounded-lg"
         type="button"
         data-testid="exec-search-btn"
         onClick={ () => handleClick() }

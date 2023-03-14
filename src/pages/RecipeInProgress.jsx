@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 import { detailsRecipesApi } from '../services/api';
 
-import Header from '../componentes/Header';
 import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
 
@@ -99,7 +98,6 @@ function RecipeInProgress() {
 
   return (
     <div>
-      <Header />
       <div>
         <BtnShareAndFavorite
           recipe={ recipe }
@@ -119,7 +117,7 @@ function RecipeInProgress() {
               <div className="w-screen h-64 overflow-hidden">
                 <h2
                   className="text-white font-bold text-4xl flex items-center decoration
-                  absolute z-40 h-10 w-48 inset-x-28 inset-y-48 justify-center"
+                  absolute z-40 h-10 w-48 inset-x-28 inset-y-24 justify-center"
                   data-testid="recipe-title"
                 >
                   {strMeal}
@@ -133,7 +131,6 @@ function RecipeInProgress() {
                 <h3 data-testid="recipe-category">{strCategory}</h3>
               </div>
               <div className="my-8 w-11/12">
-
                 <h2 className="ml-4 mt-4 text-2xl font-semibold">Ingredients</h2>
                 <ul
                   className="text-xl list-none list-inside
@@ -206,44 +203,71 @@ function RecipeInProgress() {
               strAlcoholic,
             },
           ) => (
-            <main key={ idDrink }>
-              <h2 data-testid="recipe-title">{strDrink}</h2>
-              <img
-                data-testid="recipe-photo"
-                src={ strDrinkThumb }
-                alt={ strDrink }
-              />
-              <h3 data-testid="recipe-category">
-                {strCategory}
-                {' '}
-                { strAlcoholic}
-              </h3>
-              <ul>
-                {ingredients.map((ingredient, idx) => (
-                  <label
-                    htmlFor={ `${ingredient}${idx}` }
-                    key={ idx }
-                    data-testid={ `${idx}-ingredient-step` }
-                    className={ checkedItems[ingredient] ? 'line-through' : '' }
-                  >
-                    <input
-                      id={ `${ingredient}${idx}` }
-                      name={ `${ingredient}` }
-                      type="checkbox"
-                      checked={ checkedItems[ingredient] }
-                      onChange={ handleCheck }
-                    />
-                    <li
-                      data-testid={ `${idx}-ingredient-name-and-measure` }
+            <main
+              className="flex flex-col items-center"
+              key={ idDrink }
+            >
+              <div className="w-screen h-64 overflow-hidden">
+                <h2
+                  className="text-white font-bold text-4xl flex items-center decoration
+                  absolute z-40 h-10 w-48 inset-x-28 inset-y-24 justify-center"
+                  data-testid="recipe-title"
+                >
+                  {strDrink}
+                </h2>
+                <img
+                  className="w-screen relative brightness-75"
+                  data-testid="recipe-photo"
+                  src={ strDrinkThumb }
+                  alt={ strDrink }
+                />
+                <h3 data-testid="recipe-category">
+                  {strCategory}
+                  {' '}
+                  { strAlcoholic}
+                </h3>
+              </div>
+              <div className="my-8 w-11/12">
+                <h2 className="ml-4 mt-4 text-2xl font-semibold">Ingredients</h2>
+                <ul
+                  className="text-xl list-none list-inside
+                w-full p-4 my-3 border-2 rounded-lg"
+                >
+                  {ingredients.map((ingredient, idx) => (
+                    <label
+                      htmlFor={ `${ingredient}${idx}` }
+                      key={ idx }
+                      data-testid={ `${idx}-ingredient-step` }
+                      className={ checkedItems[ingredient] ? 'line-through' : 'flex' }
                     >
-                      {ingredient}
-                      {measure[idx]}
-                    </li>
-                  </label>
-                ))}
-              </ul>
-              <p data-testid="instructions">{strInstructions}</p>
-              <br />
+                      <input
+                        className="mr-2"
+                        id={ `${ingredient}${idx}` }
+                        name={ `${ingredient}` }
+                        type="checkbox"
+                        checked={ checkedItems[ingredient] }
+                        onChange={ handleCheck }
+                      />
+                      <li
+                        className="my-5"
+                        data-testid={ `${idx}-ingredient-name-and-measure` }
+                      >
+                        {ingredient}
+                        {measure[idx]}
+                      </li>
+                    </label>
+                  ))}
+                </ul>
+              </div>
+              <div className="w-11/12 mb-8">
+                <h2 className="ml-4 text-2xl font-semibold">Instructions</h2>
+                <p
+                  className="text-xl w-full p-6 my-3 border-2 rounded-lg"
+                  data-testid="instructions"
+                >
+                  {strInstructions}
+                </p>
+              </div>
               <BtnRecipesDetails
                 idRecipe={ idDrink }
                 type="drinks"
