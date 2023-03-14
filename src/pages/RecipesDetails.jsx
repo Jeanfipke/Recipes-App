@@ -3,9 +3,8 @@ import { useLocation } from 'react-router-dom';
 import BtnRecipesDetails from '../componentes/BtnRecipesDetails';
 import BtnShareAndFavorite from '../componentes/BtnShareAndFavorite';
 import { detailsRecipesApi } from '../services/api';
-
-import './RecipesDetails.css';
 import Carousel from '../componentes/Carousel';
+import './styles/RecipesDetails.css';
 
 function RecipesDetails() {
   const [recipe, setRecipe] = useState([]);
