@@ -5,7 +5,7 @@ function NotFound() {
   return (
     <>
       <Header />
-      <h2>NotFound</h2>
+      <h2>notFound</h2>
     </>
   );
 }

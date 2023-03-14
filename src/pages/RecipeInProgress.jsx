@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -114,50 +115,77 @@ function RecipeInProgress() {
           .map((
             { idMeal, strMealThumb, strMeal, strCategory, strInstructions, strYoutube },
           ) => (
-            <main key={ idMeal }>
-              <h2 data-testid="recipe-title">{strMeal}</h2>
-              <img
-                data-testid="recipe-photo"
-                src={ strMealThumb }
-                alt={ strMeal }
-              />
-              <h3 data-testid="recipe-category">{strCategory}</h3>
-              <ul>
-                {ingredients.map((ingredient, idx) => (
-                  <label
-                    htmlFor={ `${ingredient}${idx}` }
-                    key={ idx }
-                    data-testid={ `${idx}-ingredient-step` }
-                    className={ checkedItems[ingredient] ? 'line-through' : '' }
-                  >
-                    <input
-                      id={ `${ingredient}${idx}` }
-                      name={ `${ingredient}` }
-                      type="checkbox"
-                      checked={ checkedItems[ingredient] }
-                      onChange={ handleCheck }
-                    />
-                    <li
-                      data-testid={ `${idx}-ingredient-name-and-measure` }
+            <main className="flex flex-col items-center" key={ idMeal }>
+              <div className="w-screen h-64 overflow-hidden">
+                <h2
+                  className="text-white font-bold text-4xl flex items-center decoration
+                  absolute z-40 h-10 w-48 inset-x-28 inset-y-48 justify-center"
+                  data-testid="recipe-title"
+                >
+                  {strMeal}
+                </h2>
+                <img
+                  className="w-screen relative brightness-75"
+                  data-testid="recipe-photo"
+                  src={ strMealThumb }
+                  alt={ strMeal }
+                />
+                <h3 data-testid="recipe-category">{strCategory}</h3>
+              </div>
+              <div className="my-8 w-11/12">
+
+                <h2 className="ml-4 mt-4 text-2xl font-semibold">Ingredients</h2>
+                <ul
+                  className="text-xl list-none list-inside
+                w-full p-4 my-3 border-2 rounded-lg"
+                >
+                  {ingredients.map((ingredient, idx) => (
+                    <label
+                      htmlFor={ `${ingredient}${idx}` }
+                      key={ idx }
+                      data-testid={ `${idx}-ingredient-step` }
+                      className={ checkedItems[ingredient] ? 'line-through' : '' }
                     >
-                      {ingredient}
-                      {' '}
-                      {measure[idx]}
-                    </li>
-                  </label>
-                ))}
-              </ul>
-              <p data-testid="instructions">{strInstructions}</p>
-              <iframe
-                data-testid="video"
-                width="853"
-                height="480"
-                src={ `https://www.youtube.com/embed/${strYoutube.split('v=')[1]}` }
-                allow="accelerometer; autoplay; clipboard-write;
-                  encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title="Embedded youtube"
-              />
+                      <input
+                        id={ `${ingredient}${idx}` }
+                        name={ `${ingredient}` }
+                        type="checkbox"
+                        checked={ checkedItems[ingredient] }
+                        onChange={ handleCheck }
+                      />
+                      <li
+                        className="my-5"
+                        data-testid={ `${idx}-ingredient-name-and-measure` }
+                      >
+                        {ingredient}
+                        {' '}
+                        {measure[idx]}
+                      </li>
+                    </label>
+                  ))}
+                </ul>
+              </div>
+              <div className="w-11/12 mb-8">
+                <h2 className="ml-4 text-2xl font-semibold">Instructions</h2>
+                <p
+                  data-testid="instructions"
+                  className="text-xl w-full p-6 my-3 border-2 rounded-lg"
+                >
+                  {strInstructions}
+                </p>
+              </div>
+              <div className="w-11/12 mb-16">
+                <h2 className="ml-4 mb-2 text-2xl font-semibold">Video</h2>
+                <iframe
+                  data-testid="video"
+                  className="w-full h-72"
+                  src={ `https://www.youtube.com/embed/${strYoutube.split('v=')[1]}` }
+                  allow="accelerometer; autoplay; clipboard-write;
+                    encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title="Embedded youtube"
+                />
+              </div>
               <BtnRecipesDetails
                 idRecipe={ idMeal }
                 type="meals"
