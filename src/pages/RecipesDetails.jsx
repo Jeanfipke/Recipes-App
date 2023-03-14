@@ -80,37 +80,63 @@ function RecipesDetails() {
           .map((
             { idMeal, strMealThumb, strMeal, strCategory, strInstructions, strYoutube },
           ) => (
-            <main key={ idMeal }>
-              <h2 data-testid="recipe-title">{strMeal}</h2>
-              <img
-                data-testid="recipe-photo"
-                src={ strMealThumb }
-                alt={ strMeal }
-              />
-              <h3 data-testid="recipe-category">{strCategory}</h3>
-              <ul>
-                {ingredients.map((ingredient, idx) => (
-                  <li
-                    key={ idx }
-                    data-testid={ `${idx}-ingredient-name-and-measure` }
-                  >
-                    {ingredient}
-                    {' '}
-                    {measure[idx]}
-                  </li>
-                ))}
-              </ul>
-              <p data-testid="instructions">{strInstructions}</p>
-              <iframe
-                data-testid="video"
-                width="853"
-                height="480"
-                src={ `https://www.youtube.com/embed/${strYoutube.split('v=')[1]}` }
-                allow="accelerometer; autoplay; clipboard-write;
+            <main className="flex flex-col items-center" key={ idMeal }>
+              <div className="w-screen h-64 overflow-hidden">
+                <h2
+                  className="text-white font-bold text-4xl flex items-center decoration
+                  absolute z-40 h-10 w-48 inset-x-28 inset-y-24 justify-center"
+                  data-testid="recipe-title"
+                >
+                  {strMeal}
+                </h2>
+                <img
+                  className="w-screen relative brightness-75"
+                  data-testid="recipe-photo"
+                  src={ strMealThumb }
+                  alt={ strMeal }
+                />
+                <h3 data-testid="recipe-category">{strCategory}</h3>
+              </div>
+              <div className="my-8 w-11/12">
+                <h2 className="ml-4 text-2xl font-semibold">Ingredients</h2>
+                <ul
+                  className="text-xl list-disc list-inside
+                  w-full p-4 my-3 border-2 rounded-lg"
+                >
+                  {ingredients.map((ingredient, idx) => (
+                    <li
+                      className="my-5"
+                      key={ idx }
+                      data-testid={ `${idx}-ingredient-name-and-measure` }
+                    >
+                      {ingredient}
+                      {' '}
+                      {measure[idx]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="w-11/12 mb-8">
+                <h2 className="ml-4 text-2xl font-semibold">Instructions</h2>
+                <p
+                  className="text-xl w-full p-6 my-3 border-2 rounded-lg"
+                  data-testid="instructions"
+                >
+                  {strInstructions}
+                </p>
+              </div>
+              <div className="w-11/12 mb-8">
+                <h2 className="ml-4 mb-2 text-2xl font-semibold">Video</h2>
+                <iframe
+                  className="w-full h-72"
+                  data-testid="video"
+                  src={ `https://www.youtube.com/embed/${strYoutube.split('v=')[1]}` }
+                  allow="accelerometer; autoplay; clipboard-write;
                   encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title="Embedded youtube"
-              />
+                  allowFullScreen
+                  title="Embedded youtube"
+                />
+              </div>
               <section
                 className="d-flex carousel"
                 data-testid="carsl-t"
@@ -119,7 +145,7 @@ function RecipesDetails() {
               >
                 <RecomendationCard thumb={ 16 } />
               </section>
-              <div className="d-flex btnNext">
+              <div className="d-flex btnNext mb-14">
                 <button onClick={ handlePrev }>Prev</button>
                 <button onClick={ handleNext }>Next</button>
               </div>

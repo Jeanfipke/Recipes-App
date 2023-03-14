@@ -15,10 +15,10 @@ function Header() {
 
   return (
     <header className="header">
-      <div className="header-top">
+      <div className="header-top bg-yellow-400 w-screen py-2 px-6">
         <div className="recipes-logo">
-          <img src={ recipesLogo } alt="recipes icon" />
-          <img src={ recipesTextLogo } alt="recipes text icon" />
+          <img className="w-14" src={ recipesLogo } alt="recipes icon" />
+          <img className="ml-6 w-32" src={ recipesTextLogo } alt="recipes text icon" />
         </div>
         <div className="header-buttons">
           {
@@ -41,6 +41,7 @@ function Header() {
           }
           <button onClick={ () => history.push('/profile') }>
             <img
+              className="ml-4 w-10"
               data-testid="profile-top-btn"
               src={ profileIcon }
               alt="profile icon"

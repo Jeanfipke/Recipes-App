@@ -37,27 +37,31 @@ function Recipes() {
       <Header />
       <BtnCategories />
       <button
+        className="w-full bg-violet-900 text-white h-10 font-bold"
         type="button"
         data-testid="All-category-filter"
         onClick={ handleResetFilters }
       >
-        All
+        ALL
       </button>
-      {pathname === '/meals' ? (
-        recipe
-          .map((meal, idx) => (
-            <Link to={ `/meals/${meal.idMeal}` } key={ meal.idMeal }>
-              <Card key={ meal.idMeal } param={ meal } idx={ idx } />
-            </Link>
-          ))
-      ) : (
-        recipe
-          .map((drink, idx) => (
-            <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
-              <Card key={ drink.idDrink } param={ drink } idx={ idx } />
-            </Link>
-          ))
-      )}
+
+      <div className="flex flex-col justify-center items-center mb-24">
+        {pathname === '/meals' ? (
+          recipe
+            .map((meal, idx) => (
+              <Link to={ `/meals/${meal.idMeal}` } key={ meal.idMeal }>
+                <Card key={ meal.idMeal } param={ meal } idx={ idx } />
+              </Link>
+            ))
+        ) : (
+          recipe
+            .map((drink, idx) => (
+              <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
+                <Card key={ drink.idDrink } param={ drink } idx={ idx } />
+              </Link>
+            ))
+        )}
+      </div>
       <Footer />
     </div>
   );

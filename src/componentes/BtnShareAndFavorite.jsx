@@ -79,9 +79,13 @@ function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId, shareId }) {
   }, [checkIsFavorite]);
 
   return (
-    <div>
+    <div
+      className="absolute inset-x-3/4
+      w-24 h-16 z-40 flex justify-around items-center"
+    >
       <button onClick={ shareRecipe }>
         <img
+          className="w-8"
           src={ ShareImage }
           data-testid={ shareId }
           alt="Share Recipe"
@@ -91,6 +95,7 @@ function BtnShareAndFavorite({ recipe, recipeType, id, favoriteId, shareId }) {
         onClick={ favoriteRecipe }
       >
         <img
+          className="w-8"
           data-testid={ favoriteId }
           src={ isFavorite ? FavoriteImage : UnfavoriteImage }
           alt="Favorite Recipe"

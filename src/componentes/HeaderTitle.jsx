@@ -28,7 +28,12 @@ function HeaderTitle() {
   }, [getTitle]);
 
   return (
-    <h1 data-testid="page-title">{ title }</h1>
+    <h1
+      className="text-3xl font-bold text-violet-900 my-4"
+      data-testid="page-title"
+    >
+      { title }
+    </h1>
   );
 }
 

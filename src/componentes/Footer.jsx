@@ -14,12 +14,26 @@ function Footer() {
   };
 
   return (
-    <div data-testid="footer" className="footer">
+    <div
+      data-testid="footer"
+      className="footer h-20 w-screen fixed bottom-0
+      bg-violet-900 flex items-center justify-between px-8"
+    >
       <button type="button" className="button" onClick={ () => clickDrinks() }>
-        <img data-testid="drinks-bottom-btn" src={ drinkIcon } alt="Drinks" />
+        <img
+          className="w-10"
+          data-testid="drinks-bottom-btn"
+          src={ drinkIcon }
+          alt="Drinks"
+        />
       </button>
       <button type="button" className="button" onClick={ () => clickMeals() }>
-        <img data-testid="meals-bottom-btn" src={ mealIcon } alt="Meals" />
+        <img
+          className="w-14"
+          data-testid="meals-bottom-btn"
+          src={ mealIcon }
+          alt="Meals"
+        />
       </button>
     </div>
   );
