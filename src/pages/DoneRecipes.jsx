@@ -39,68 +39,60 @@ function DoneRecipes() {
   }, [doneRecipesFilter]);
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex flex-col justify-center items-center">
       <Header />
       <BtnDneRecipes />
-      <div
-        className="flex w-11/12 flex-col
-        items-center justify-center"
-      >
-        {doneRecipes && doneRecipes.map((recipe, index) => (
-          <div
-            className="flex w-full overflow-hidden rounded-xl
+      {doneRecipes && doneRecipes.map((recipe, index) => (
+        <div
+          className="flex w-11/12 overflow-hidden rounded-xl
             place-self-center justify-between border-2 my-2 h-40"
-            key={ index }
-          >
+          key={ index }
+        >
+          <Link to={ `/${recipe.type}s/${recipe.id}` }>
+            <img
+              className="w-64"
+              data-testid={ `${index}-horizontal-image` }
+              src={ recipe.image }
+              alt={ recipe.name }
+            />
+          </Link>
+          <div className="flex relative flex-col w-full justify-evenly items-center">
             <Link to={ `/${recipe.type}s/${recipe.id}` }>
-              <img
-                className="w-64"
-                data-testid={ `${index}-horizontal-image` }
-                src={ recipe.image }
-                alt={ recipe.name }
-              />
+              <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
             </Link>
-            <div className="flex flex-col w-full justify-evenly items-center">
-              <div className="flex ">
-                <Link to={ `/${recipe.type}s/${recipe.id}` }>
-                  <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
-                </Link>
-                <label htmlFor="share">
-                  <button
-                    type="button"
-                    data-testid={ `${index}-horizontal-share-btn` }
-                    src={ ShareImage }
-                    alt="share"
-                    onClick={ () => shareRecipe(recipe.type, recipe.id) }
-                  >
-                    <img src={ ShareImage } alt="share" />
-                  </button>
-                </label>
-              </div>
-              <p data-testid={ `${index}-horizontal-top-text` }>
-                {recipe.type === 'meal'
-                  ? `${recipe.nationality} - ${recipe.category}`
-                  : recipe.alcoholicOrNot}
-              </p>
-              <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
-              <div className="flex">
-                {recipe.tags.map((tag, indexTag) => (
-                  <p
-                    className="bg-gray-300 mx-1 w-16
+            <label className="absolute top-4 right-16" htmlFor="share">
+              <button
+                type="button"
+                data-testid={ `${index}-horizontal-share-btn` }
+                src={ ShareImage }
+                alt="share"
+                onClick={ () => shareRecipe(recipe.type, recipe.id) }
+              >
+                <img src={ ShareImage } alt="share" />
+              </button>
+            </label>
+            <p data-testid={ `${index}-horizontal-top-text` }>
+              {recipe.type === 'meal'
+                ? `${recipe.nationality} - ${recipe.category}`
+                : recipe.alcoholicOrNot}
+            </p>
+            <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
+            <div className="flex">
+              {recipe.tags.map((tag, indexTag) => (
+                <p
+                  className="bg-gray-300 mx-1 w-16
                     text-center text-gray-700 rounded-3xl"
-                    key={ indexTag }
-                    data-testid={ `${index}-${tag}-horizontal-tag` }
-                  >
-                    {tag}
-                  </p>
-                )) }
-              </div>
+                  key={ indexTag }
+                  data-testid={ `${index}-${tag}-horizontal-tag` }
+                >
+                  {tag}
+                </p>
+              )) }
             </div>
-
           </div>
-        ))}
 
-      </div>
+        </div>
+      ))}
     </main>
   );
 }
